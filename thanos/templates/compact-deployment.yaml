@@ -42,19 +42,23 @@ spec:
             {{- if .Values.compact.wait }}
             - "--wait"
             {{- end }}
-            {{- if .Values.s3.enabled }}
-            - "--objstore.config-file=/thanos-s3/s3.yaml"
+            {{- if .Values.objectStorageConfig.enabled }}
+            - "--objstore.config=$(OBJSTORE_CONFIG)"
             {{- end }}
+          {{- if .Values.objectStorageConfig.enabled }}
+          env:
+          - name: OBJSTORE_CONFIG
+            valueFrom:
+              secretKeyRef:
+                key: {{ .Values.objectStorageConfig.key }}
+                name: {{ .Values.objectStorageConfig.name }}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.compact.deployment.container.httpPort }}
           volumeMounts:
             - name: data
               mountPath: /var/thanos/compact
-            {{- if .Values.s3.enabled }}
-            - name: {{ include "thanos.fullname" . }}-thanos-s3-config
-              mountPath: /thanos-s3
-            {{- end }}
           resources:
 {{ toYaml .Values.compact.resources | indent 12 }}
     {{- with .Values.compact.nodeSelector }}
@@ -71,10 +75,4 @@ spec:
     {{- end }}
       volumes:
         - name: data
-          mountPath: /var/thanos/compact
-      {{- if .Values.s3.enabled }}
-        - name: {{ include "thanos.fullname" . }}-thanos-s3-config
-          configMap:
-            name: {{ include "thanos.fullname" . }}-thanos-s3-config
-      {{- end }}
 {{- end -}}

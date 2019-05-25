@@ -5,20 +5,18 @@
 
 image:
   repository: improbable/thanos
-  tag: v0.3.2
+  tag: v0.4.2
   pullPolicy: IfNotPresent
 
 nameOverride: ""
 fullnameOverride: ""
 
-s3:
+# Thanos object storage configuration (Azure Blob, EWS S3, etc.)
+# see ref: https://github.com/improbable-eng/thanos/blob/master/docs/storage.md
+objectStorageConfig:
   enabled: false
-  bucket: ""
-  endpoint: ""
-  insecure: false
-  signatureV2: true
-  encryptSse: false
-
+  key: thanos.yaml
+  name: thanos-objstore-config
 
 # Thanos store configuration
 store:
