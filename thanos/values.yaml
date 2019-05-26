@@ -96,6 +96,7 @@ query:
   enabled: true
   replicaCount: 1
   logLevel: debug
+  # https://github.com/improbable-eng/thanos/issues/1015
   storeDNSResolver: miekgdns
   stores:
     - store.example.local:10901
