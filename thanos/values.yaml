@@ -96,6 +96,7 @@ query:
   enabled: true
   replicaCount: 1
   logLevel: debug
+  storeDNSResolver: miekgdns
   stores:
     - store.example.local:10901
   queryReplicaLabel: replica

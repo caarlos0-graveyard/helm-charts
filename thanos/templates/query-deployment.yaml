@@ -35,6 +35,9 @@ spec:
             - "query"
             - "--log.level={{ .Values.query.logLevel }}"
             - "--cluster.disable"
+            {{- if .Values.query.storeDNSResolver }}
+            - "--store.sd-dns-resolver={{ .Values.query.dnsResolver }}"
+            {{- end }}
             {{- range .Values.query.stores }}
             - "--store={{ . }}"
             {{- end }}
