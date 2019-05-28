@@ -20,11 +20,8 @@ spec:
   externalTrafficPolicy: {{ .Values.compact.httpService.externalTrafficPolicy }}
   {{- end }}
   ports:
-    - port: {{ .Values.compact.httpService.port }}
+    - port: 10902
       targetPort: http
-      {{- if .Values.compact.httpService.nodePortEnabled }}
-      nodePort: {{ .Values.compact.httpService.nodePort }}
-      {{- end }}
       protocol: TCP
       name: http
   selector:

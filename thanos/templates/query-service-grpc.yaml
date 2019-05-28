@@ -20,11 +20,8 @@ spec:
   externalTrafficPolicy: {{ .Values.query.grpcService.externalTrafficPolicy }}
   {{- end }}
   ports:
-    - port: {{ .Values.query.grpcService.port }}
+    - port: 10901
       targetPort: grpc
-      {{- if .Values.query.grpcService.nodePortEnabled }}
-      nodePort: {{ .Values.query.grpcService.nodePort }}
-      {{- end }}
       protocol: TCP
       name: grpc
   selector:

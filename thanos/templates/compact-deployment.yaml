@@ -54,7 +54,7 @@ spec:
           {{- end }}
           ports:
             - name: http
-              containerPort: {{ .Values.compact.deployment.container.httpPort }}
+              containerPort: 10902
           volumeMounts:
             - name: data
               mountPath: /var/thanos/compact

@@ -47,26 +47,15 @@ store:
   deployment:
     annotations: {}
 
-    container:
-      httpPort: 10902
-      grpcPort: 10901
-
   grpcService:
     enabled: true
     type: ClusterIP
-    port: 10901
-    nodePortEnabled: false
-    NodePort: 30901
     externalTrafficPolicy: ""
     annotations: {}
 
   httpService:
     enabled: true
     type: ClusterIP
-    port: 10902
-    nodePortEnabled: false
-    nodePortEnabled: false
-    nodePort: 30902
     externalTrafficPolicy: ""
     annotations: {}
 
@@ -92,11 +81,12 @@ store:
 query:
   enabled: true
   replicaCount: 1
-  logLevel: debug
+  logLevel: info
   # https://github.com/improbable-eng/thanos/issues/1015
   storeDNSResolver: miekgdns
   stores:
-    - store.example.local:10901
+    - dnssrv+_grpc._tcp.thanos-store-grpc.thanos.svc.cluster.local
+    - dnssrv+_grpc._tcp.thanos-sidecar.thanos.svc.cluster.local
   queryReplicaLabel: replica
 
   # cert, key and ca are base64 encoded strings
@@ -116,26 +106,16 @@ query:
 
   deployment:
     annotations: {}
-    container:
-      httpPort: 10902
-      grpcPort: 10901
 
   grpcService:
     enabled: true
     type: ClusterIP
-    port: 10901
-    nodePortEnabled: false
-    NodePort: 30901
     externalTrafficPolicy: ""
     annotations: {}
 
   httpService:
     enabled: true
     type: ClusterIP
-    port: 10902
-    nodePortEnabled: false
-    nodePortEnabled: false
-    nodePort: 30902
     externalTrafficPolicy: ""
     annotations: {}
 
@@ -172,16 +152,9 @@ compact:
 
   deployment:
     annotations: {}
-    container:
-      httpPort: 10902
-      grpcPort: 10901
 
   httpService:
     enabled: true
     type: ClusterIP
-    port: 10902
-    nodePortEnabled: false
-    nodePortEnabled: false
-    nodePort: 30902
     externalTrafficPolicy: ""
     annotations: {}

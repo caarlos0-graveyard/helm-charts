@@ -20,11 +20,8 @@ spec:
   externalTrafficPolicy: {{ .Values.query.httpService.externalTrafficPolicy }}
   {{- end }}
   ports:
-    - port: {{ .Values.query.httpService.port }}
+    - port: 10902
       targetPort: http
-      {{- if .Values.query.httpService.nodePortEnabled }}
-      nodePort: {{ .Values.query.httpService.nodePort }}
-      {{- end }}
       protocol: TCP
       name: http
   selector:

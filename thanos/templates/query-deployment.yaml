@@ -55,9 +55,9 @@ spec:
             {{- end }}
           ports:
             - name: http
-              containerPort: {{ .Values.query.deployment.container.httpPort }}
+              containerPort: 10902
             - name: grpc
-              containerPort: {{ .Values.query.deployment.container.grpcPort }}
+              containerPort: 10901
           volumeMounts:
             {{- if .Values.query.tlsClient.enabled }}
             - name: {{ include "thanos.fullname" . }}-thanos-query-tls-client

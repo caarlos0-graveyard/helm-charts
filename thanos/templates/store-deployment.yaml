@@ -53,9 +53,9 @@ spec:
           {{- end }}
           ports:
             - name: http
-              containerPort: {{ .Values.store.deployment.container.httpPort }}
+              containerPort: 10902
             - name: grpc
-              containerPort: {{ .Values.store.deployment.container.grpcPort }}
+              containerPort: 10901
           volumeMounts:
             - name: data
               mountPath: /var/thanos/store
