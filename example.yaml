@@ -1,0 +1,28 @@
+prometheus-operator:
+  prometheus:
+    prometheusSpec:
+      replicas: 2
+      externalLabels:
+        region: local
+        replica: a
+      thanos:
+        objectStorageConfig:
+          key: thanos.yaml
+          name: thanos-objstore-config
+
+query:
+  replicaCount: 2
+  logLevel: info
+  tlsClient:
+    enabled: false
+
+compact:
+  enabled: true
+
+objectStorageConfig:
+  enabled: true
+
+store:
+  replicaCount: 2
+  tlsServer:
+    enabled: false
