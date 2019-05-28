@@ -35,9 +35,6 @@ spec:
             - "store"
             - "--log.level={{ .Values.store.logLevel }}"
             - "--data-dir=/var/thanos/store"
-            {{- if .Values.store.clusterDisabled }}
-            - "--cluster.disable"
-            {{- end }}
             {{- if .Values.objectStorageConfig.enabled }}
             - "--objstore.config=$(OBJSTORE_CONFIG)"
             {{- end }}
@@ -59,8 +56,6 @@ spec:
               containerPort: {{ .Values.store.deployment.container.httpPort }}
             - name: grpc
               containerPort: {{ .Values.store.deployment.container.grpcPort }}
-            - name: cluster
-              containerPort: {{ .Values.store.deployment.container.clusterPort }}
           volumeMounts:
             - name: data
               mountPath: /var/thanos/store

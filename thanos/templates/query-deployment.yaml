@@ -34,7 +34,6 @@ spec:
           args:
             - "query"
             - "--log.level={{ .Values.query.logLevel }}"
-            - "--cluster.disable"
             {{- if .Values.query.storeDNSResolver }}
             - "--store.sd-dns-resolver={{ .Values.query.storeDNSResolver }}"
             {{- end }}
@@ -59,8 +58,6 @@ spec:
               containerPort: {{ .Values.query.deployment.container.httpPort }}
             - name: grpc
               containerPort: {{ .Values.query.deployment.container.grpcPort }}
-            - name: cluster
-              containerPort: {{ .Values.query.deployment.container.clusterPort }}
           volumeMounts:
             {{- if .Values.query.tlsClient.enabled }}
             - name: {{ include "thanos.fullname" . }}-thanos-query-tls-client

@@ -1,7 +1,5 @@
-# Default values for thanos-store.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
+prometheus:
+  install: true
 
 image:
   repository: improbable/thanos
@@ -25,8 +23,6 @@ store:
 
   logLevel: debug
 
-  clusterDisabled: true
-
   # cert, key and ca are base64 encoded strings
   tlsServer:
     enabled: false
@@ -41,18 +37,6 @@ store:
     container:
       httpPort: 10902
       grpcPort: 10901
-      clusterPort: 10900
-
-  clusterDisabled: true
-
-  clusterService:
-    enabled: false
-    type: ClusterIP
-    port: 10900
-    nodePortEnabled: false
-    nodePort: 30900
-    externalTrafficPolicy: ""
-    annotations: {}
 
   grpcService:
     enabled: true
@@ -124,18 +108,6 @@ query:
     container:
       httpPort: 10902
       grpcPort: 10901
-      clusterPort: 10900
-
-  clusterDisabled: true
-
-  clusterService:
-    enabled: false
-    type: ClusterIP
-    port: 10900
-    nodePortEnabled: false
-    nodePort: 30900
-    externalTrafficPolicy: ""
-    annotations: {}
 
   grpcService:
     enabled: true
@@ -187,8 +159,6 @@ compact:
 
   logLevel: debug
 
-  clusterDisabled: true
-
   deployment:
     annotations: {}
       # iam.amazonaws.com/role: prometheus-thanos-store
@@ -196,7 +166,6 @@ compact:
     container:
       httpPort: 10902
       grpcPort: 10901
-      clusterPort: 10900
 
   httpService:
     enabled: true
