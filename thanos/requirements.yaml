@@ -3,5 +3,3 @@ dependencies:
   - name: prometheus-operator
     version: 5.10.*
     repository: https://kubernetes-charts.storage.googleapis.com/
-    condition: prometheus.install
-

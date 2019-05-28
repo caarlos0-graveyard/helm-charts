@@ -1,0 +1,27 @@
+{{- if .Values.compact.enabled }}
+{{- if .Values.compact.httpService.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "thanos.fullname" . }}-compact
+  labels:
+    app.kubernetes.io/name: {{ include "thanos.name" . }}
+    helm.sh/chart: {{ include "thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: compact
+spec:
+  jobLabel: thanos-compact
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "thanos.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/component: compact
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  endpoints:
+  - port: http
+    interval: 15s
+{{- end -}}
+{{- end -}}

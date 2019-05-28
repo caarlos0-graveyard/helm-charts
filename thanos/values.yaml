@@ -1,5 +1,19 @@
-prometheus:
-  install: true
+prometheus-operator:
+  prometheus:
+    prometheusSpec:
+      replicas: 1
+      retention: 4h
+      image:
+        tag: v2.10.0
+      serviceMonitorSelectorNilUsesHelmValues: false
+      serviceMonitorNamespaceSelector: {}
+      serviceMonitorSelector: {}
+      thanos:
+        tag: v0.4.0
+
+  prometheusOperator:
+    image:
+      tag: v0.30.0
 
 image:
   repository: improbable/thanos
@@ -32,7 +46,6 @@ store:
 
   deployment:
     annotations: {}
-      # iam.amazonaws.com/role: prometheus-thanos-store
 
     container:
       httpPort: 10902
@@ -103,8 +116,6 @@ query:
 
   deployment:
     annotations: {}
-      # iam.amazonaws.com/role: prometheus
-
     container:
       httpPort: 10902
       grpcPort: 10901
@@ -161,8 +172,6 @@ compact:
 
   deployment:
     annotations: {}
-      # iam.amazonaws.com/role: prometheus-thanos-store
-
     container:
       httpPort: 10902
       grpcPort: 10901
