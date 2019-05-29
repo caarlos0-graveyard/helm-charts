@@ -5,9 +5,15 @@ prometheus-operator:
       retention: 4h
       image:
         tag: v2.10.0
+      # this is needed to make prometheus-operator do the expected thing and
+      # actually use servicemonitors and prometheusrules created 'from outside'
+      # the helm chart.
       serviceMonitorSelectorNilUsesHelmValues: false
       serviceMonitorNamespaceSelector: {}
       serviceMonitorSelector: {}
+      ruleSelectorNilUsesHelmValues: false
+      ruleNamespaceSelector: {}
+      ruleSelector: {}
       thanos:
         tag: v0.4.0
 
