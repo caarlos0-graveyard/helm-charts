@@ -22,11 +22,15 @@ Then create a secret with it:
 kubectl -n thanos create secret generic thanos-objstore-config --from-file=thanos.yaml=thanos-storage-config.yaml
 ```
 
+> Check `thanos-storage-config.yaml.example` for an example of `thanos-storage-config.yaml`
+
 Finally install this chart:
 
 ```sh
 helm install --namespace thanos --name thanos ./thanos -f values.yaml
 ```
+
+> Check `values.yaml.example` for an example of `values.yaml`
 
 You can then port-forward the services you want:
 
