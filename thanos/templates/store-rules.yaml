@@ -19,11 +19,11 @@ spec:
       annotations:
         summary: Thanos Store is returning Internal/Unavailable errors
         impact: Long Term Storage Prometheus queries are failing
-        action: Check {{ $labels.kubernetes_pod_name }} pod logs in {{ $labels.kubernetes_namespace}} namespace
+        action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
     - alert: ThanosStoreBucketOperationsFailed
       expr: rate(thanos_objstore_bucket_operation_failures_total{app="thanos-store"}[5m]) > 0
       for: 5m
       annotations:
         summary: Thanos Store is failing to do bucket operations
         impact: Long Term Storage Prometheus queries are failing
-        action: Check {{ $labels.kubernetes_pod_name }} pod logs in {{ $labels.kubernetes_namespace}} namespace
+        action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
