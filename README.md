@@ -49,4 +49,4 @@ kubectl -n thanos port-forward svc/thanos-prometheus-operator-prometheus 9090:90
 - [x] service discovery inside the cluster
 - [ ] service discovery across clusters
 - [ ] dynamic prometheus replica label for deduplication
-- [ ] recommended rules for thanos components
+- [x] recommended rules for thanos components
