@@ -1,7 +1,8 @@
+{{- if .Values.sidecar.httpService.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "thanos.fullname" . }}-sidecar
+  name: {{ include "thanos.fullname" . }}-sidecar-http
   labels:
     app.kubernetes.io/name: {{ include "thanos.name" . }}
     helm.sh/chart: {{ include "thanos.chart" . }}
@@ -10,12 +11,15 @@ metadata:
     app.kubernetes.io/component: sidecar
 spec:
   ports:
-    - port: 10901
+    - port: 10902
+      targetPort: http
       protocol: TCP
-      targetPort: grpc
-      name: grpc
+      name: http
   selector:
     app: prometheus
     prometheus: {{ include "thanos.fullname" . }}-prometheus-operator-prometheus
-  type: ClusterIP
-  clusterIP: None
+  type: {{ .Values.sidecar.httpService.type }}
+  {{- if .Values.sidecar.httpService.externalTrafficPolicy }}
+  externalTrafficPolicy: {{ .Values.sidecar.httpService.externalTrafficPolicy }}
+  {{- end }}
+{{- end -}}

@@ -17,6 +17,13 @@ prometheus-operator:
       thanos:
         tag: v0.4.0
 
+  grafana:
+    adminPassword: admin
+    sidecar:
+      dashboards:
+        enabled: true
+        label: grafana_dashboard
+
   prometheusOperator:
     image:
       tag: v0.30.0
@@ -92,7 +99,7 @@ query:
   storeDNSResolver: miekgdns
   stores:
     - dnssrv+_grpc._tcp.thanos-store-grpc.thanos.svc.cluster.local
-    - dnssrv+_grpc._tcp.thanos-sidecar.thanos.svc.cluster.local
+    - dnssrv+_grpc._tcp.thanos-sidecar-grpc.thanos.svc.cluster.local
   queryReplicaLabel: replica
 
   # cert, key and ca are base64 encoded strings
@@ -164,3 +171,9 @@ compact:
     type: ClusterIP
     externalTrafficPolicy: ""
     annotations: {}
+
+sidecar:
+  httpService:
+    enabled: true
+    type: ClusterIP
+    externalTrafficPolicy: ""
