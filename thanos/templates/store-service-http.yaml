@@ -1,5 +1,3 @@
-{{- if .Values.store.enabled }}
-{{- if .Values.store.httpService.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -28,5 +26,3 @@ spec:
     app.kubernetes.io/name: {{ include "thanos.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/component: store
-{{- end -}}
-{{- end -}}

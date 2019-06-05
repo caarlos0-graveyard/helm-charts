@@ -1,5 +1,3 @@
-{{- if .Values.compact.enabled }}
-{{- if .Values.compact.httpService.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
@@ -23,5 +21,3 @@ spec:
   endpoints:
   - port: http
     interval: 15s
-{{- end -}}
-{{- end -}}

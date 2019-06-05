@@ -40,13 +40,6 @@ image:
 nameOverride: ""
 fullnameOverride: ""
 
-# Thanos object storage configuration (Azure Blob, EWS S3, etc.)
-# see ref: https://github.com/improbable-eng/thanos/blob/master/docs/storage.md
-objectStorageConfig:
-  enabled: false
-  key: thanos.yaml
-  name: thanos-objstore-config
-
 # tls config for store and query
 tls:
   enabled: true
@@ -60,7 +53,6 @@ tls:
 
 # Thanos store configuration
 store:
-  enabled: true
   replicaCount: 1
 
   logLevel: debug
@@ -69,13 +61,11 @@ store:
     annotations: {}
 
   grpcService:
-    enabled: true
     type: ClusterIP
     externalTrafficPolicy: ""
     annotations: {}
 
   httpService:
-    enabled: true
     type: ClusterIP
     externalTrafficPolicy: ""
     annotations: {}
@@ -100,7 +90,6 @@ store:
 
 # Thanos query configuration
 query:
-  enabled: true
   replicaCount: 1
   logLevel: info
   # https://github.com/improbable-eng/thanos/issues/1015
@@ -114,13 +103,11 @@ query:
     annotations: {}
 
   grpcService:
-    enabled: true
     type: ClusterIP
     externalTrafficPolicy: ""
     annotations: {}
 
   httpService:
-    enabled: true
     type: ClusterIP
     externalTrafficPolicy: ""
     annotations: {}
@@ -145,7 +132,6 @@ query:
 
 # Thanos compact configuration
 compact:
-  enabled: false
   replicaCount: 1
 
   syncDelay: 30m
@@ -160,13 +146,11 @@ compact:
     annotations: {}
 
   httpService:
-    enabled: true
     type: ClusterIP
     externalTrafficPolicy: ""
     annotations: {}
 
 sidecar:
   httpService:
-    enabled: true
     type: ClusterIP
     externalTrafficPolicy: ""
