@@ -13,10 +13,8 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/component: query
 spec:
-  type: {{ .Values.query.grpcService.type }}
-  {{- if .Values.query.grpcService.externalTrafficPolicy }}
-  externalTrafficPolicy: {{ .Values.query.grpcService.externalTrafficPolicy }}
-  {{- end }}
+  type: ClusterIP
+  clusterIP: None
   ports:
     - port: 10901
       targetPort: grpc
