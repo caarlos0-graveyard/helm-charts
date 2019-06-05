@@ -20,6 +20,10 @@ prometheus-operator:
   grafana:
     adminPassword: admin
     sidecar:
+      datasources:
+        enabled: true
+        defaultDatasourceEnabled: false
+        label: grafana_datasource
       dashboards:
         enabled: true
         label: grafana_dashboard
