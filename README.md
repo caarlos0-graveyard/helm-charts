@@ -57,8 +57,11 @@ kubectl -n thanos port-forward svc/thanos-prometheus-operator-prometheus 9090:90
 
 ## TODO
 
+- [x] remove peering options (deprecated on thanos 0.4.0+)
+- [x] remove some not very useful options, leave sane defaults
 - [x] servicemonitors for thanos components
 - [ ] TLS
+  - [ ] improve config
 - [x] service discovery inside the cluster
 - [ ] service discovery across clusters
 - [ ] dynamic prometheus replica label for deduplication
