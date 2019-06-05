@@ -9,28 +9,41 @@ durable prometheus on kubernetes using prometheus-operator and thanos.
 
 ## Getting started
 
+#### 1. Namespace
+
 ```sh
 kubectl create namespace thanos
 ```
 
+#### 2. Storage config
+
 You'll need a thanos storage config yaml file, as per
 [documentation](https://thanos.io/storage.md/).
 
-Then create a secret with it:
+Then craete a `thanos-storage-config.yaml` file based on the provided
+`thanos-storage-config.yaml.example`.
+
+#### 3. Values file
+
+Create a `values.yaml` file based on the provided `values.yaml.example`.
+You can check all option available at `./thanos/values.yaml`, as well as
+on the official `prometheus-operator` and `grafana` Helm charts.
+
+#### 4. Install
 
 ```sh
-kubectl -n thanos create secret generic thanos-objstore-config --from-file=thanos.yaml=thanos-storage-config.yaml
+helm install --namespace thanos --name thanos ./thanos -f values.yaml \
+  --set-file objectStore=thanos-storage-config.yaml
 ```
 
-> Check `thanos-storage-config.yaml.example` for an example of `thanos-storage-config.yaml`
-
-Finally install this chart:
+##### 4.1 Upgrade when needed
 
 ```sh
-helm install --namespace thanos --name thanos ./thanos -f values.yaml
+helm upgrade --namespace thanos thanos ./thanos -f values.yaml \
+  --set-file objectStore=thanos-storage-config.yaml
 ```
 
-> Check `values.yaml.example` for an example of `values.yaml`
+#### 5. Port-forward services
 
 You can then port-forward the services you want:
 
@@ -52,3 +65,5 @@ kubectl -n thanos port-forward svc/thanos-prometheus-operator-prometheus 9090:90
 - [x] recommended rules for thanos components
 - [x] recommended dashboards for thanos components
 - [x] thanos as datasource in grafana
+- [x] objectstore config as file
+- [ ] ingresses?

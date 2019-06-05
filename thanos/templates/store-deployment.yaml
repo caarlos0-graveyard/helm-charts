@@ -1,4 +1,3 @@
-{{- if .Values.store.enabled }}
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
@@ -35,22 +34,12 @@ spec:
             - "store"
             - "--log.level={{ .Values.store.logLevel }}"
             - "--data-dir=/var/thanos/store"
-            {{- if .Values.objectStorageConfig.enabled }}
-            - "--objstore.config=$(OBJSTORE_CONFIG)"
-            {{- end }}
+            - "--objstore.config-file=/etc/thanos-object-store/store.yaml"
             {{- if .Values.store.tlsServer.enabled }}
             - "--grpc-server-tls-cert=/thanos-tls-server/server.crt"
             - "--grpc-server-tls-key=/thanos-tls-server/server.key"
             - "--grpc-server-tls-client-ca=/thanos-tls-server/ca.crt"
             {{- end }}
-          {{- if .Values.objectStorageConfig.enabled }}
-          env:
-          - name: OBJSTORE_CONFIG
-            valueFrom:
-              secretKeyRef:
-                key: {{ .Values.objectStorageConfig.key }}
-                name: {{ .Values.objectStorageConfig.name }}
-          {{- end }}
           ports:
             - name: http
               containerPort: 10902
@@ -59,6 +48,8 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /var/thanos/store
+            - name: object-store
+              mountPath: /etc/thanos-object-store
             {{- if .Values.store.tlsServer.enabled }}
             - name: {{ include "thanos.fullname" . }}-thanos-store-tls-server
               mountPath: /thanos-tls-server
@@ -79,9 +70,11 @@ spec:
     {{- end }}
       volumes:
         - name: data
+        - name: object-store
+          secret:
+            secretName: {{ include "thanos.fullname" . }}-thanos-object-store
       {{- if .Values.store.tlsServer.enabled }}
         - name: {{ include "thanos.fullname" . }}-thanos-store-tls-server
           secret:
             secretName: {{ include "thanos.fullname" . }}-thanos-store-tls-server
       {{- end }}
-{{- end -}}
