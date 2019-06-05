@@ -7,8 +7,8 @@ prometheus-operator:
         replica: a
       thanos:
         objectStorageConfig:
-          key: thanos.yaml
-          name: thanos-objstore-config
+          key: store.yaml
+          name: thanos-thanos-object-store
 
 query:
   replicaCount: 2
