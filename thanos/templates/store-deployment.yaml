@@ -38,11 +38,11 @@ spec:
             {{- if .Values.objectStorageConfig.enabled }}
             - "--objstore.config=$(OBJSTORE_CONFIG)"
             {{- end }}
-            {{- if .Values.store.tlsServer.enabled }}
-            - "--grpc-server-tls-cert=/thanos-tls-server/server.crt"
-            - "--grpc-server-tls-key=/thanos-tls-server/server.key"
-            {{- if .Values.store.tlsServer.ca }}
-            - "--grpc-server-tls-client-ca=/thanos-tls-server/ca.crt"
+            {{- if .Values.tls.enabled }}
+            - "--grpc-server-tls-cert=/thanos-tls/cert.crt"
+            - "--grpc-server-tls-key=/thanos-tls/cert.key"
+            {{- if .Values.tls.ca }}
+            - "--grpc-server-tls-client-ca=/thanos-tls/ca.crt"
             {{- end }}
             {{- end }}
           {{- if .Values.objectStorageConfig.enabled }}
@@ -61,9 +61,9 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /var/thanos/store
-            {{- if .Values.store.tlsServer.enabled }}
-            - name: {{ include "thanos.fullname" . }}-thanos-store-tls-server
-              mountPath: /thanos-tls-server
+            {{- if .Values.tls.enabled }}
+            - name: {{ include "thanos.fullname" . }}-thanos-tls
+              mountPath: /thanos-tls
             {{- end }}
           resources:
 {{ toYaml .Values.store.resources | indent 12 }}
@@ -81,9 +81,9 @@ spec:
     {{- end }}
       volumes:
         - name: data
-      {{- if .Values.store.tlsServer.enabled }}
-        - name: {{ include "thanos.fullname" . }}-thanos-store-tls-server
+      {{- if .Values.tls.enabled }}
+        - name: {{ include "thanos.fullname" . }}-thanos-tls
           secret:
-            secretName: {{ include "thanos.fullname" . }}-thanos-store-tls-server
+            secretName: {{ include "thanos.fullname" . }}-thanos-tls
       {{- end }}
 {{- end -}}

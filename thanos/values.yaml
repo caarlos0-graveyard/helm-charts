@@ -47,21 +47,23 @@ objectStorageConfig:
   key: thanos.yaml
   name: thanos-objstore-config
 
+# tls config for store and query
+tls:
+  enabled: true
+  # certificate and key for client side authentication to stores
+  cert: ""
+  key: ""
+  # CA to validate the remote store certificate
+  ca: ""
+  # (optional) server name indication to the stores (ref: https://tools.ietf.org/html/rfc4366#section-3.1)
+  serverName: ""
+
 # Thanos store configuration
 store:
   enabled: true
   replicaCount: 1
 
   logLevel: debug
-
-  # cert, key and ca are strings and can be overwritten using `helm install <chart> --set-file <key>=/path/to/file`
-  tlsServer:
-    enabled: false
-    # certificate and key for server TLS
-    cert: ""
-    key: ""
-    # CA to validate the remote client certificate
-    ca: ""
 
   deployment:
     annotations: {}
@@ -107,26 +109,6 @@ query:
     - dnssrv+_grpc._tcp.thanos-store-grpc.thanos.svc.cluster.local
     - dnssrv+_grpc._tcp.thanos-sidecar-grpc.thanos.svc.cluster.local
   queryReplicaLabel: replica
-
-  # cert, key and ca are strings and can be overwritten using `helm install <chart> --set-file <key>=/path/to/file`
-  tlsClient:
-    enabled: false
-    # certificate and key for client side authentication to stores
-    cert: ""
-    key: ""
-    # CA to validate the remote store certificate
-    ca: ""
-    # (optional) server name indication to the stores (ref: https://tools.ietf.org/html/rfc4366#section-3.1)
-    serverName: ""
-
-  # cert, key and ca are strings and can be overwritten using `helm install <chart> --set-file <key>=/path/to/file`
-  tlsServer:
-    enabled: false
-    # certificate and key for server TLS
-    cert: ""
-    key: ""
-    # CA to validate the remote client certificate
-    ca: ""
 
   deployment:
     annotations: {}

@@ -24,10 +24,47 @@ kubectl -n thanos create secret generic thanos-objstore-config --from-file=thano
 
 > Check `thanos-storage-config.yaml.example` for an example of `thanos-storage-config.yaml`
 
+To generate a self-signed PFX file (skip if you already have one):
+
+```sh
+openssl req -x509 -days 365 -newkey rsa:2048 -keyout cert.pem -out cert.pem
+openssl pkcs12 -export -in cert.pem -inkey cert.pem -out cert.pfx
+
+
+openssl genrsa -out server.key 2048
+openssl req -new -x509 -sha256 -key server.key -out server.crt -days 3650
+openssl req -new -sha256 -key server.key -out server.csr
+openssl x509 -req -sha256 -in server.csr -signkey server.key -out server.crt -days 3650
+
+
+certstrap init --common-name "mydomain.com"
+```
+
+Then generate the other needed files:
+
+```sh
+# public key
+openssl pkcs12 -in cert.pfx -nocerts -nodes -out cert.key
+# private key
+openssl pkcs12 -in cert.pfx -clcerts -nokeys -out cert.cer
+# certificate authority (CA)
+openssl pkcs12 -in cert.pfx -cacerts -nokeys -chain -out cacerts.cer
+```
+
 Finally install this chart:
 
 ```sh
-helm install --namespace thanos --name thanos ./thanos -f values.yaml
+helm install --namespace thanos --name thanos ./thanos -f values.yaml \
+  --set-file tls.cert=out/caarlos0.dev.crt \
+  --set-file tls.key=out/caarlos0.dev.key
+```
+
+Or upgrade:
+
+```sh
+helm upgrade --namespace thanos thanos ./thanos -f values.yaml \
+  --set-file tls.cert=out/caarlos0.dev.crt \
+  --set-file tls.key=out/caarlos0.dev.key
 ```
 
 > Check `values.yaml.example` for an example of `values.yaml`

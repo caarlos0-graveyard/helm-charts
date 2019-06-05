@@ -13,8 +13,6 @@ prometheus-operator:
 query:
   replicaCount: 2
   logLevel: info
-  tlsClient:
-    enabled: false
 
 compact:
   enabled: true
@@ -24,5 +22,3 @@ objectStorageConfig:
 
 store:
   replicaCount: 2
-  tlsServer:
-    enabled: false
