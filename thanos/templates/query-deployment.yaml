@@ -42,14 +42,14 @@ spec:
             - "--query.replica-label={{ .Values.query.queryReplicaLabel }}"
             {{- if .Values.tls.enabled }}
             - "--grpc-client-tls-secure"
-            - "--grpc-client-tls-cert=/thanos-tls/cert.crt"
-            - "--grpc-client-tls-key=/thanos-tls/cert.key"
-            - "--grpc-client-server-name={{ .Values.tls.serverName }}"
-            - "--grpc-server-tls-cert=/thanos-tls/cert.crt"
-            - "--grpc-server-tls-key=/thanos-tls/cert.key"
+            - "--grpc-client-tls-cert=/etc/thanos-tls/client.crt"
+            - "--grpc-client-tls-key=/etc/thanos-tls/client.key"
+            - "--grpc-client-server-name={{ .Values.tls.server.name }}"
+            - "--grpc-server-tls-cert=/etc/thanos-tls/server.crt"
+            - "--grpc-server-tls-key=/etc/thanos-tls/server.key"
             {{- if .Values.tls.ca }}
-            - "--grpc-client-tls-ca=/thanos-tls/ca.crt"
-            - "--grpc-server-tls-client-ca=/thanos-tls/ca.crt"
+            - "--grpc-client-tls-ca=/etc/thanos-tls/ca.crt"
+            - "--grpc-server-tls-client-ca=/etc/thanos-tls/ca.crt"
             {{- end }}
             {{- end }}
           ports:
@@ -59,8 +59,8 @@ spec:
               containerPort: 10901
           volumeMounts:
             {{- if .Values.tls.enabled }}
-            - name: {{ include "thanos.fullname" . }}-thanos-tls
-              mountPath: /thanos-tls
+            - name: tls
+              mountPath: /etc/thanos-tls
             {{- end }}
           livenessProbe:
             httpGet:
@@ -82,7 +82,7 @@ spec:
     {{- end }}
       volumes:
       {{- if .Values.tls.enabled }}
-        - name: {{ include "thanos.fullname" . }}-thanos-tls
-          secret:
-            secretName: {{ include "thanos.fullname" . }}-thanos-tls
+      - name: tls
+        secret:
+          secretName: {{ include "thanos.fullname" . }}-thanos-tls
       {{- end }}

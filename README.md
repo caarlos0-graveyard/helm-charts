@@ -23,27 +23,49 @@ You'll need a thanos storage config yaml file, as per
 Then craete a `thanos-storage-config.yaml` file based on the provided
 `thanos-storage-config.yaml.example`.
 
-#### 3. Values file
+#### 3. TLS (optional)
+
+```sh
+certstrap init --common-name "My Root CA"
+certstrap request-cert --domain example.com
+certstrap sign --CA "My Root CA" example.com
+
+certstrap request-cert --ip 127.0.0.1
+certstrap sign --CA "My Root CA" 127.0.0.1
+```
+
+#### 4. Values file
 
 Create a `values.yaml` file based on the provided `values.yaml.example`.
 You can check all option available at `./thanos/values.yaml`, as well as
 on the official `prometheus-operator` and `grafana` Helm charts.
 
-#### 4. Install
+#### 5. Install
 
 ```sh
 helm install --namespace thanos --name thanos ./thanos -f values.yaml \
   --set-file objectStore=thanos-storage-config.yaml
 ```
 
-##### 4.1 Upgrade when needed
+##### 5.1 Upgrade when needed
 
 ```sh
 helm upgrade --namespace thanos thanos ./thanos -f values.yaml \
   --set-file objectStore=thanos-storage-config.yaml
 ```
 
-#### 5. Port-forward services
+##### 5.2 If using TLS
+
+Run the commands above with those additional flags:
+
+```sh
+  --set-file tls.server.crt=out/example.com.crt \
+  --set-file tls.server.key=out/example.com.key \
+  --set-file tls.client.crt=out/127.0.0.1.crt \
+  --set-file tls.client.key=out/127.0.0.1.key
+```
+
+#### 6. Port-forward services
 
 You can then port-forward the services you want:
 

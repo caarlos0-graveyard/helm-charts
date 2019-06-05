@@ -42,20 +42,26 @@ fullnameOverride: ""
 
 # tls config for store and query
 tls:
-  enabled: true
-  # certificate and key for client side authentication to stores
-  cert: ""
-  key: ""
+  enabled: false
   # CA to validate the remote store certificate
   ca: ""
-  # (optional) server name indication to the stores (ref: https://tools.ietf.org/html/rfc4366#section-3.1)
-  serverName: ""
+  # client side
+  client:
+    # certificate and key for client side authentication to stores
+    crt: ""
+    key: ""
+  # server side
+  server:
+    # certificate and key for client side authentication to stores
+    crt: ""
+    key: ""
+    # (optional) server name indication to the stores (ref: https://tools.ietf.org/html/rfc4366#section-3.1)
+    name: ""
 
 # Thanos store configuration
 store:
   replicaCount: 1
-
-  logLevel: debug
+  logLevel: info
 
   deployment:
     annotations: {}
