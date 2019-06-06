@@ -19,6 +19,12 @@ prometheus-operator:
 
   grafana:
     adminPassword: admin
+    additionalDataSources:
+    - name: Prometheus
+      type: prometheus
+      url: http://thanos-query-http:10902
+      access: proxy
+      isDefault: true
     sidecar:
       datasources:
         enabled: true

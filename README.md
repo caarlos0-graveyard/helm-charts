@@ -57,6 +57,7 @@ You can then port-forward the services you want:
 ```sh
 kubectl -n thanos port-forward svc/thanos-query-http 8080:10902
 kubectl -n thanos port-forward svc/thanos-prometheus-operator-prometheus 9090:9090
+kubectl -n thanos port-forward svc/thanos-grafana 3000:80
 # etc...
 ```
 
