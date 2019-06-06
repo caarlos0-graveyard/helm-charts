@@ -39,14 +39,14 @@ on the official `prometheus-operator` and `grafana` Helm charts.
 #### 4. Install
 
 ```sh
-helm install --namespace thanos --name thanos thanos -f values.yaml \
+helm install --namespace thanos --name thanos carlos/thanos -f values.yaml \
   --set-file objectStore=thanos-storage-config.yaml
 ```
 
 ##### 4.1 Upgrade when needed
 
 ```sh
-helm upgrade --namespace thanos thanos thanos -f values.yaml \
+helm upgrade --namespace thanos thanos carlos/thanos -f values.yaml \
   --set-file objectStore=thanos-storage-config.yaml
 ```
 
