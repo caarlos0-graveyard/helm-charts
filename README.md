@@ -9,6 +9,13 @@ durable prometheus on kubernetes using prometheus-operator and thanos.
 
 ## Getting started
 
+#### 0. Helm repository
+
+```sh
+helm repo add carlos https://carlos-charts.storage.googleapis.com
+helm repo update
+```
+
 #### 1. Namespace
 
 ```sh
@@ -32,14 +39,14 @@ on the official `prometheus-operator` and `grafana` Helm charts.
 #### 4. Install
 
 ```sh
-helm install --namespace thanos --name thanos ./thanos -f values.yaml \
+helm install --namespace thanos --name thanos thanos -f values.yaml \
   --set-file objectStore=thanos-storage-config.yaml
 ```
 
 ##### 4.1 Upgrade when needed
 
 ```sh
-helm upgrade --namespace thanos thanos ./thanos -f values.yaml \
+helm upgrade --namespace thanos thanos thanos -f values.yaml \
   --set-file objectStore=thanos-storage-config.yaml
 ```
 
