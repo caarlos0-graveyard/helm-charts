@@ -78,3 +78,4 @@ kubectl -n thanos port-forward svc/thanos-grafana 3000:80
 - [x] thanos as datasource in grafana
 - [x] objectstore config as file
 - [ ] ingresses?
+- [x] repo/releases
