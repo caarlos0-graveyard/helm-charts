@@ -2,3 +2,4 @@
 **/charts/*.tgz
 thanos-storage-config.yaml
 values.yaml
+pkg
