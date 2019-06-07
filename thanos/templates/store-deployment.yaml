@@ -1,3 +1,4 @@
+{{- if .Values.store.enabled }}
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
@@ -78,3 +79,4 @@ spec:
           secret:
             secretName: {{ include "thanos.fullname" . }}-thanos-store-tls-server
       {{- end }}
+{{- end -}}

@@ -3,7 +3,7 @@ set -e
 
 trap 'k3d delete -n thanos-test' EXIT
 
-k3d create -n thanos-test -w
+k3d create --name thanos-test --wait 0
 export KUBECONFIG="$(k3d get-kubeconfig --name='thanos-test')"
 kubectl create serviceaccount --namespace kube-system tiller
 kubectl create clusterrolebinding tiller-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
@@ -15,3 +15,4 @@ helm install --namespace thanos --name thanos ./thanos \
 	-f values.yaml \
 	--set-file objectStore=thanos-storage-config.yaml
 
+read -p "Press enter to continue"

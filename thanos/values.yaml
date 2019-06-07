@@ -48,6 +48,7 @@ fullnameOverride: ""
 
 # Thanos store configuration
 store:
+  enabled: true
   replicaCount: 1
 
   logLevel: debug
@@ -90,6 +91,7 @@ store:
 
 # Thanos query configuration
 query:
+  enabled: true
   replicaCount: 1
   logLevel: info
   # https://github.com/improbable-eng/thanos/issues/1015
@@ -145,6 +147,7 @@ query:
 
 # Thanos compact configuration
 compact:
+  enabled: true
   replicaCount: 1
 
   syncDelay: 30m
