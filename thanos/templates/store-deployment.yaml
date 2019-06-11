@@ -71,6 +71,7 @@ spec:
     {{- end }}
       volumes:
         - name: data
+        # TODO: this should be parametized
         - name: object-store
           secret:
             secretName: {{ include "thanos.fullname" . }}-thanos-object-store
