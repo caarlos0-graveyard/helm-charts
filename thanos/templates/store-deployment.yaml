@@ -81,9 +81,4 @@ spec:
         - name: object-store
           secret:
             secretName: {{ include "thanos.fullname" . }}-thanos-object-store
-        {{- if .Values.store.tlsServer.enabled }}
-        - name: {{ include "thanos.fullname" . }}-thanos-store-tls-server
-          secret:
-            secretName: {{ include "thanos.fullname" . }}-thanos-store-tls-server
-        {{- end }}
 {{- end -}}
