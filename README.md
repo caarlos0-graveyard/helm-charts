@@ -114,6 +114,18 @@ kubectl -n thanos1 port-forward svc/thanos1-query-http 8080:10902
 open http://localhost:8080
 ```
 
+You should see 3 categories:
+
+- query (from `thanos2`)
+- sidecar (from `thanos1`)
+- store (from `thanos1`)
+
+So you could have `thanos3`, `thanos4`, `thanosN` and service discover all of
+them on `thanos1` query.
+
+On "a real world deployment" you'll have an ingress in front of each query
+on each cluster, and `thanos1` query would talk directly to the load balancer.
+
 ---
 
 ## TODO

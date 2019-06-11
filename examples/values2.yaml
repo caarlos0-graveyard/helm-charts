@@ -17,7 +17,7 @@ prometheus-operator:
     prometheusSpec:
       replicas: 2
       externalLabels:
-        region: local
+        region: local2
         replica: a
       thanos:
         objectStorageConfig:
