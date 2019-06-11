@@ -18,4 +18,5 @@ spec:
       name: grpc
   selector:
     app: prometheus
-    prometheus: {{ include "thanos.fullname" . }}-prometheus-operator-prometheus
+    # XXX: why prometheus operator cuts at 26?
+    prometheus: "{{- printf "%s-prometheus-operator" .Release.Name | trunc 26 | trimSuffix "-" -}}-prometheus"
