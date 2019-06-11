@@ -1,0 +1,37 @@
+prometheus-operator:
+  global:
+    rbac:
+      pspEnabled: false
+  grafana:
+    enabled: false # thanos1 will already have that installed
+  nodeExporter:
+    enabled: false # thanos1 will already have that installed
+  alertmanager:
+    enabled: false # thanos1 will already have that installed
+  kubeStateMetrics:
+    enabled: false # thanos1 will already have that installed
+  prometheusOperator:
+    enabled: false # thanos1 will already have that installed
+    createCustomResource: false
+  prometheus:
+    prometheusSpec:
+      replicas: 2
+      externalLabels:
+        region: local
+        replica: a
+      thanos:
+        objectStorageConfig:
+          # this should be ${releaseName}-thanos-object-store
+          name: thanos2-thanos-object-store
+          key: store.yaml
+
+query:
+  replicaCount: 2
+  stores:
+    - dnssrv+_grpc._tcp.thanos2-sidecar-grpc.thanos2.svc.cluster.local
+
+store:
+  enabled: false # thanos1 will already have that installed
+
+compact:
+  enabled: false # thanos1 will already have that installed

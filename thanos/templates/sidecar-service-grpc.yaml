@@ -18,4 +18,5 @@ spec:
       name: grpc
   selector:
     app: prometheus
+    # TODO: cut 64 chars
     prometheus: {{ include "thanos.fullname" . }}-prometheus-operator-prometheus

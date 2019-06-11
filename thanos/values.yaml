@@ -1,4 +1,7 @@
 prometheus-operator:
+  nameOverride: prometheus
+  fullnameOverride: prometheus
+
   prometheus:
     prometheusSpec:
       replicas: 1

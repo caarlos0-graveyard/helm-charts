@@ -63,6 +63,59 @@ kubectl -n thanos port-forward svc/thanos-grafana 3000:80
 
 ---
 
+## Multi-cluster architecture
+
+On a multi-cluster (global) architecture the idea is to deploy the "full thing""
+on a "central cluster", and only prometheus, alertmanager (?), thanos sidecar
+and thanos query on all others:
+
+![](examples/arch.png)
+
+If you want to play with it locally without having 2 "real clusters" to mess
+with, you can follow this steps to deploy 2 workloads on 2 different
+namespaces: `thanos1` and `thanos2`.
+
+I recommend using `k3s` as it uses less resources and its fast to set up
+with `k3d`.
+
+```sh
+# create a cluster with k3d
+k3d create -n multiple-thanos --wait 0
+
+# fix kubeconfig
+export KUBECONFIG="$(k3d get-kubeconfig --name='multiple-thanos')"
+
+# setup helm/tiller
+kubectl create serviceaccount --namespace kube-system tiller
+kubectl create clusterrolebinding tiller-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+helm init --service-account tiller --upgrade --wait
+
+# install thanos1
+helm upgrade --install --namespace thanos1 thanos1 ./thanos \
+	--wait \
+	--timeout 600 \
+	-f examples/values1.yaml \
+	--set-file objectStore=thanos-storage-config.yaml
+
+# install thanos2
+helm upgrade --install --namespace thanos2 thanos2 ./thanos \
+	--wait \
+	--timeout 600 \
+	-f examples/values2.yaml \
+	--set-file objectStore=thanos-storage-config.yaml
+```
+
+Finally, verify you `thanos1` query services can see both `thanos1` store and
+sidecar as well as `thanos2` query:
+
+```sh
+kubectl -n thanos1 port-forward svc/thanos1-query-http 8080:10902
+
+open http://localhost:8080
+```
+
+---
+
 ## TODO
 
 - [x] remove peering options (deprecated on thanos 0.4.0+)
@@ -71,7 +124,7 @@ kubectl -n thanos port-forward svc/thanos-grafana 3000:80
 - [ ] TLS
   - [ ] improve config
 - [x] service discovery inside the cluster
-- [ ] service discovery across clusters
+- [x] service discovery across clusters
 - [ ] dynamic prometheus replica label for deduplication
 - [x] recommended rules for thanos components
 - [x] recommended dashboards for thanos components

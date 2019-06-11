@@ -1,0 +1,23 @@
+prometheus-operator:
+  prometheus:
+    prometheusSpec:
+      replicas: 2
+      externalLabels:
+        region: local
+        replica: a
+      thanos:
+        objectStorageConfig:
+          # this should be ${releaseName}-thanos-object-store
+          name: thanos1-thanos-object-store
+          key: store.yaml
+
+query:
+  replicaCount: 2
+  logLevel: info
+  stores:
+    - dnssrv+_grpc._tcp.thanos1-store-grpc.thanos1.svc.cluster.local
+    - dnssrv+_grpc._tcp.thanos1-sidecar-grpc.thanos1.svc.cluster.local
+    - dnssrv+_grpc._tcp.thanos2-query-grpc.thanos2.svc.cluster.local
+
+store:
+  replicaCount: 2
