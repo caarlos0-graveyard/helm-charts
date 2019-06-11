@@ -112,6 +112,7 @@ query:
   queryReplicaLabel: replica
 
   ingress:
+    enabled: false
     domain: example.com
 
   deployment:

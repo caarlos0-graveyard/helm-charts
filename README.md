@@ -47,29 +47,23 @@ Create a `values.yaml` file based on the provided `values.yaml.example`.
 You can check all option available at `./thanos/values.yaml`, as well as
 on the official `prometheus-operator` and `grafana` Helm charts.
 
-#### 5. Install
+#### 5. Install/upgrade
 
 ```sh
-helm install --namespace thanos --name thanos carlos/thanos -f values.yaml \
+helm upgrade --install --namespace thanos --name thanos carlos/thanos -f values.yaml \
   --set-file objectStore=thanos-storage-config.yaml
 ```
 
-##### 5.1 Upgrade when needed
+##### 5.1 Or with TLS
 
 ```sh
-helm upgrade --namespace thanos thanos carlos/thanos -f values.yaml \
-  --set-file objectStore=thanos-storage-config.yaml
-```
-
-##### 5.2 If using TLS
-
-Run the commands above with those additional flags:
-
-```sh
+helm upgrade --install --namespace thanos thanos carlos/thanos -f values.yaml \
   --set-file tls.server.crt=out/example.com.crt \
   --set-file tls.server.key=out/example.com.key \
   --set-file tls.client.crt=out/127.0.0.1.crt \
-  --set-file tls.client.key=out/127.0.0.1.key
+  --set-file tls.client.key=out/127.0.0.1.key \
+  --set-file tls.client.chain=out/Root_CA.crt \
+  --set-file objectStore=thanos-storage-config.yaml
 ```
 
 #### 6. Port-forward services
@@ -90,8 +84,8 @@ kubectl -n thanos port-forward svc/thanos-grafana 3000:80
 - [x] remove peering options (deprecated on thanos 0.4.0+)
 - [x] remove some not very useful options, leave sane defaults
 - [x] servicemonitors for thanos components
-- [ ] TLS
-  - [ ] improve config
+- [x] TLS
+  - [x] improve config
 - [x] service discovery inside the cluster
 - [ ] service discovery across clusters
 - [ ] dynamic prometheus replica label for deduplication
