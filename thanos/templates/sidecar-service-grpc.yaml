@@ -9,6 +9,8 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/component: sidecar
 spec:
+  type: ClusterIP
+  clusterIP: None
   ports:
     - port: 10901
       protocol: TCP
@@ -17,5 +19,3 @@ spec:
   selector:
     app: prometheus
     prometheus: {{ include "thanos.fullname" . }}-prometheus-operator-prometheus
-  type: ClusterIP
-  clusterIP: None

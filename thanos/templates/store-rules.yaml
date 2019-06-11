@@ -1,3 +1,4 @@
+{{- if .Values.store.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
@@ -27,3 +28,4 @@ spec:
         summary: Thanos Store is failing to do bucket operations
         impact: Long Term Storage Prometheus queries are failing
         action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
+{{- end -}}

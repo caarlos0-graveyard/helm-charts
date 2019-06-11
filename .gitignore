@@ -5,3 +5,4 @@ values.yaml
 cert.*
 cacerts.cer
 out
+pkg

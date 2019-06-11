@@ -9,6 +9,13 @@ durable prometheus on kubernetes using prometheus-operator and thanos.
 
 ## Getting started
 
+#### 0. Helm repository
+
+```sh
+helm repo add carlos https://carlos-charts.storage.googleapis.com
+helm repo update
+```
+
 #### 1. Namespace
 
 ```sh
@@ -43,14 +50,14 @@ on the official `prometheus-operator` and `grafana` Helm charts.
 #### 5. Install
 
 ```sh
-helm install --namespace thanos --name thanos ./thanos -f values.yaml \
+helm install --namespace thanos --name thanos carlos/thanos -f values.yaml \
   --set-file objectStore=thanos-storage-config.yaml
 ```
 
 ##### 5.1 Upgrade when needed
 
 ```sh
-helm upgrade --namespace thanos thanos ./thanos -f values.yaml \
+helm upgrade --namespace thanos thanos carlos/thanos -f values.yaml \
   --set-file objectStore=thanos-storage-config.yaml
 ```
 
@@ -72,6 +79,7 @@ You can then port-forward the services you want:
 ```sh
 kubectl -n thanos port-forward svc/thanos-query-http 8080:10902
 kubectl -n thanos port-forward svc/thanos-prometheus-operator-prometheus 9090:9090
+kubectl -n thanos port-forward svc/thanos-grafana 3000:80
 # etc...
 ```
 
@@ -92,3 +100,4 @@ kubectl -n thanos port-forward svc/thanos-prometheus-operator-prometheus 9090:90
 - [x] thanos as datasource in grafana
 - [x] objectstore config as file
 - [ ] ingresses?
+- [x] repo/releases

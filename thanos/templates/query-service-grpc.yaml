@@ -1,3 +1,4 @@
+{{- if .Values.query.enabled }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -13,10 +14,8 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/component: query
 spec:
-  type: {{ .Values.query.grpcService.type }}
-  {{- if .Values.query.grpcService.externalTrafficPolicy }}
-  externalTrafficPolicy: {{ .Values.query.grpcService.externalTrafficPolicy }}
-  {{- end }}
+  type: ClusterIP
+  clusterIP: None
   ports:
     - port: 10901
       targetPort: grpc
@@ -26,3 +25,4 @@ spec:
     app.kubernetes.io/name: {{ include "thanos.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/component: query
+{{- end -}}

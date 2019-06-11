@@ -19,6 +19,12 @@ prometheus-operator:
 
   grafana:
     adminPassword: admin
+    additionalDataSources:
+    - name: Prometheus
+      type: prometheus
+      url: http://thanos-query-http:10902
+      access: proxy
+      isDefault: true
     sidecar:
       datasources:
         enabled: true
@@ -30,7 +36,7 @@ prometheus-operator:
 
   prometheusOperator:
     image:
-      tag: v0.30.0
+      tag: v0.30.1
 
 image:
   repository: improbable/thanos
@@ -60,6 +66,7 @@ tls:
 
 # Thanos store configuration
 store:
+  enabled: true
   replicaCount: 1
   logLevel: info
 
@@ -67,8 +74,6 @@ store:
     annotations: {}
 
   grpcService:
-    type: ClusterIP
-    externalTrafficPolicy: ""
     annotations: {}
 
   httpService:
@@ -96,6 +101,7 @@ store:
 
 # Thanos query configuration
 query:
+  enabled: true
   replicaCount: 1
   logLevel: info
   # https://github.com/improbable-eng/thanos/issues/1015
@@ -109,8 +115,6 @@ query:
     annotations: {}
 
   grpcService:
-    type: ClusterIP
-    externalTrafficPolicy: ""
     annotations: {}
 
   httpService:
@@ -138,6 +142,7 @@ query:
 
 # Thanos compact configuration
 compact:
+  enabled: true
   replicaCount: 1
 
   syncDelay: 30m

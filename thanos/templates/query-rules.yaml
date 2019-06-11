@@ -1,3 +1,4 @@
+{{- if .Values.query.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
@@ -20,3 +21,4 @@ spec:
         summary: Thanos Query is returning Internal/Unavailable errors
         impact: Grafana is not showing metrics
         action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
+{{- end -}}
