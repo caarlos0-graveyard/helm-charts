@@ -33,12 +33,12 @@ Then craete a `thanos-storage-config.yaml` file based on the provided
 #### 3. TLS (optional)
 
 ```sh
-certstrap init --common-name "My Root CA"
+certstrap init --common-name "Root CA"
 certstrap request-cert --domain example.com
-certstrap sign --CA "My Root CA" example.com
+certstrap sign --CA "Root CA" example.com
 
 certstrap request-cert --ip 127.0.0.1
-certstrap sign --CA "My Root CA" 127.0.0.1
+certstrap sign --CA "Root CA" 127.0.0.1
 ```
 
 #### 4. Values file

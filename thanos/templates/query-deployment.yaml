@@ -48,10 +48,8 @@ spec:
             - "--grpc-client-server-name={{ .Values.tls.server.name }}"
             - "--grpc-server-tls-cert=/etc/thanos-tls/server.crt"
             - "--grpc-server-tls-key=/etc/thanos-tls/server.key"
-            {{- if .Values.tls.ca }}
             - "--grpc-client-tls-ca=/etc/thanos-tls/ca.crt"
             - "--grpc-server-tls-client-ca=/etc/thanos-tls/ca.crt"
-            {{- end }}
             {{- end }}
           ports:
             - name: http

@@ -49,8 +49,8 @@ fullnameOverride: ""
 # tls config for store and query
 tls:
   enabled: false
-  # CA to validate the remote store certificate
-  ca: ""
+  # CA chain to validate the remote store certificate
+  chain: ""
   # client side
   client:
     # certificate and key for client side authentication to stores
@@ -110,6 +110,9 @@ query:
     - dnssrv+_grpc._tcp.thanos-store-grpc.thanos.svc.cluster.local
     - dnssrv+_grpc._tcp.thanos-sidecar-grpc.thanos.svc.cluster.local
   queryReplicaLabel: replica
+
+  ingress:
+    domain: example.com
 
   deployment:
     annotations: {}

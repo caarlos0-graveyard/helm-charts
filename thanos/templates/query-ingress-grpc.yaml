@@ -1,0 +1,31 @@
+{{- if .Values.query.enabled }}
+{{- if .Values.query.ingress.enabled }}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "thanos.fullname" . }}-ingress-grpc
+  labels:
+    app.kubernetes.io/name: {{ include "thanos.name" . }}
+    helm.sh/chart: {{ include "thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: query
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
+    nginx.ingress.kubernetes.io/auth-tls-secret: "{{ include "thanos.fullname" . }}-thanos-ca-secret"
+spec:
+  rules:
+  - host: thanos-query.{{ .Values.query.ingress.domain }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ include "thanos.fullname" . }}-query-grpc
+          servicePort: grpc
+  tls:
+  - hosts:
+    - thanos-query.{{ .Values.query.ingress.domain }}
+    secretName: {{ include "thanos.fullname" . }}-thanos-tls
+{{- end }}
+{{- end }}
