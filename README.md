@@ -128,11 +128,65 @@ on each cluster, and `thanos1` query would talk directly to the load balancer.
 
 ---
 
+## Grafana data stored in an external database (mysql)
+
+Useful if you want to make sure you won't loose your grafana dashboards and stuff.
+
+```sh
+# create a cluster with k3d
+k3d create -n grafana-thanos --wait 0
+
+# fix kubeconfig
+export KUBECONFIG="$(k3d get-kubeconfig --name='grafana-thanos')"
+
+# setup helm/tiller
+kubectl create serviceaccount --namespace kube-system tiller
+kubectl create clusterrolebinding tiller-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
+helm init --service-account tiller --upgrade --wait
+```
+
+For the sake of simplicity in this particular case, we're going to deploy
+the mysql helm chart to our cluster as well:
+
+```sh
+helm upgrade --install --namespace mysql grafanadb \
+  --set mysqlUser=grafana \
+  --set mysqlPassword=super-secret \
+  --set mysqlDatabase=grafana \
+  --set persistence.enabled=false \
+  --wait \
+  --timeout 600 \
+  stable/mysql
+```
+
+And we need a secret for grafana to access the password:
+
+```sh
+# first create the namespace if its not there already
+kubectl create ns thanos
+
+# then create the secret
+kubectl -n thanos apply -f ./examples/grafana-secrets.yaml
+```
+
+Finally install thanos:
+
+```sh
+helm upgrade --install --namespace thanos thanos ./thanos \
+	--wait \
+	--timeout 600 \
+	-f examples/values3.yaml \
+	--set-file objectStore=thanos-storage-config.yaml
+```
+
+---
+
 ## TODO
 
 - [x] remove peering options (deprecated on thanos 0.4.0+)
 - [x] remove some not very useful options, leave sane defaults
 - [x] servicemonitors for thanos components
+- [x] figure out how to store grafana stuff on an external db
 - [ ] TLS
   - [ ] improve config
 - [x] service discovery inside the cluster
