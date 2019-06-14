@@ -198,3 +198,9 @@ helm upgrade --install --namespace thanos thanos ./thanos \
 - [x] objectstore config as file
 - [ ] ingresses?
 - [x] repo/releases
+
+---
+
+## Useful resources
+
+- https://itnext.io/monitoring-kubernetes-workloads-with-prometheus-and-thanos-4ddb394b32c
