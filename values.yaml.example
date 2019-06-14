@@ -11,13 +11,6 @@ prometheus-operator:
           name: thanos-thanos-object-store
           key: store.yaml
 
-  grafana:
-    envFromSecret: grafana-secrets
-    env:
-      GF_DATABASE_TYPE: mysql
-      GF_DATABASE_USER: grafana
-      GF_DATABASE_HOST: grafanadb-mysql.mysql.svc.cluster.local
-
 query:
   replicaCount: 2
   logLevel: info
