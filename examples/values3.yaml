@@ -17,6 +17,13 @@ prometheus-operator:
       GF_DATABASE_TYPE: mysql
       GF_DATABASE_USER: grafana
       GF_DATABASE_HOST: grafanadb-mysql.mysql.svc.cluster.local
+      # example for github oauth
+      # GF_AUTH_GITHUB_ALLOWED_ORGANIZATIONS: caarlos0-m
+      # GF_AUTH_GITHUB_CLIENT_ID: fake
+      # GF_AUTH_GITHUB_ENABLED: 'true'
+      # GF_AUTH_BASIC_ENABLED: 'false'
+      # GF_AUTH_DISABLE_LOGIN_FORM: 'true'
+      # GF_AUTH_OAUTH_AUTO_LOGIN: 'true'
 
 query:
   replicaCount: 2
