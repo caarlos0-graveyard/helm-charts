@@ -47,7 +47,7 @@ store:
   enabled: true
   replicaCount: 1
 
-  logLevel: debug
+  logLevel: info
 
   # cert, key and ca are base64 encoded strings
   tlsServer:
@@ -152,7 +152,9 @@ compact:
   retentionResolution1h: 0d
   wait: true
 
-  logLevel: debug
+  logLevel: info
+
+  nodeSelector: {}
 
   deployment:
     annotations: {}
