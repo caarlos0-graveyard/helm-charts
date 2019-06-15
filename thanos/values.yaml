@@ -34,10 +34,6 @@ prometheus-operator:
         enabled: true
         label: grafana_dashboard
 
-  prometheusOperator:
-    image:
-      tag: v0.30.1
-
 image:
   repository: improbable/thanos
   tag: v0.4.0
@@ -99,7 +95,7 @@ query:
   stores:
     - dnssrv+_grpc._tcp.thanos-store-grpc.thanos.svc.cluster.local
     - dnssrv+_grpc._tcp.thanos-sidecar-grpc.thanos.svc.cluster.local
-  queryReplicaLabel: replica
+  queryReplicaLabel: prometheus_replica
 
   # cert, key and ca are base64 encoded strings
   tlsClient:

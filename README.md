@@ -36,17 +36,11 @@ Create a `values.yaml` file based on the provided `values.yaml.example`.
 You can check all option available at `./thanos/values.yaml`, as well as
 on the official `prometheus-operator` and `grafana` Helm charts.
 
-#### 4. Install
+#### 4. Install/Upgrade
 
 ```sh
-helm install --namespace thanos --name thanos carlos/thanos -f values.yaml \
-  --set-file objectStore=thanos-storage-config.yaml
-```
-
-##### 4.1 Upgrade when needed
-
-```sh
-helm upgrade --namespace thanos thanos carlos/thanos -f values.yaml \
+helm upgrade --install --namespace thanos thanos carlos/thanos \
+  -f values.yaml \
   --set-file objectStore=thanos-storage-config.yaml
 ```
 
@@ -191,7 +185,7 @@ helm upgrade --install --namespace thanos thanos ./thanos \
   - [ ] improve config
 - [x] service discovery inside the cluster
 - [x] service discovery across clusters
-- [ ] dynamic prometheus replica label for deduplication
+- [x] dynamic prometheus replica label for deduplication - see [#2591](https://github.com/coreos/prometheus-operator/pull/2591)
 - [x] recommended rules for thanos components
 - [x] recommended dashboards for thanos components
 - [x] thanos as datasource in grafana

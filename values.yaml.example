@@ -4,7 +4,6 @@ prometheus-operator:
       replicas: 2
       externalLabels:
         region: local
-        replica: a
       thanos:
         objectStorageConfig:
           # this should be ${releaseName}-thanos-object-store
@@ -14,6 +13,7 @@ prometheus-operator:
 query:
   replicaCount: 2
   logLevel: info
+  queryReplicaLabel: replica
 
 store:
   replicaCount: 2
