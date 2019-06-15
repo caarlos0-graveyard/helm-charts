@@ -3,8 +3,7 @@ prometheus-operator:
     prometheusSpec:
       replicas: 2
       externalLabels:
-        region: local
-        replica: a
+        region: thanos1
       thanos:
         objectStorageConfig:
           # this should be ${releaseName}-thanos-object-store
