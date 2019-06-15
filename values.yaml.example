@@ -13,7 +13,6 @@ prometheus-operator:
 query:
   replicaCount: 2
   logLevel: info
-  queryReplicaLabel: replica
 
 store:
   replicaCount: 2
