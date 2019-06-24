@@ -49,13 +49,6 @@ store:
 
   logLevel: info
 
-  # cert, key and ca are base64 encoded strings
-  tlsServer:
-    enabled: false
-    cert: ""
-    key: ""
-    ca: ""
-
   deployment:
     annotations: {}
 
@@ -90,27 +83,16 @@ query:
   enabled: true
   replicaCount: 1
   logLevel: info
+
+  # enable --grpc-client-tls-secure
+  secure: false
+
   # https://github.com/improbable-eng/thanos/issues/1015
   storeDNSResolver: miekgdns
   stores:
     - dnssrv+_grpc._tcp.thanos-store-grpc.thanos.svc.cluster.local
     - dnssrv+_grpc._tcp.thanos-sidecar-grpc.thanos.svc.cluster.local
   queryReplicaLabel: prometheus_replica
-
-  # cert, key and ca are base64 encoded strings
-  tlsClient:
-    enabled: false
-    cert: ""
-    key: ""
-    ca: ""
-    serverName: ""
-
-  # cert, key and ca are base64 encoded strings
-  tlsServer:
-    enabled: false
-    cert: ""
-    key: ""
-    ca: ""
 
   deployment:
     annotations: {}

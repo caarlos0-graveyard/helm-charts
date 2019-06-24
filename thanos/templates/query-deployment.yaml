@@ -41,32 +41,14 @@ spec:
             - "--store={{ . }}"
             {{- end }}
             - "--query.replica-label={{ .Values.query.queryReplicaLabel }}"
-            {{- if .Values.query.tlsClient.enabled }}
+            {{- if .Values.query.secure }}
             - "--grpc-client-tls-secure"
-            - "--grpc-client-tls-cert=/thanos-tls-client/client.crt"
-            - "--grpc-client-tls-key=/thanos-tls-client/client.key"
-            - "--grpc-client-tls-ca=/thanos-tls-client/ca.crt"
-            - "--grpc-client-server-name={{ .Values.query.tlsClient.serverName }}"
-            {{- end }}
-            {{- if .Values.query.tlsServer.enabled }}
-            - "--grpc-server-tls-cert=/thanos-tls-server/server.crt"
-            - "--grpc-server-tls-key=/thanos-tls-server/server.key"
-            - "--grpc-server-tls-client-ca=/thanos-tls-server/ca.crt"
             {{- end }}
           ports:
             - name: http
               containerPort: 10902
             - name: grpc
               containerPort: 10901
-          volumeMounts:
-            {{- if .Values.query.tlsClient.enabled }}
-            - name: {{ include "thanos.fullname" . }}-thanos-query-tls-client
-              mountPath: /thanos-tls-client
-            {{- end }}
-            {{- if .Values.query.tlsServer.enabled }}
-            - name: {{ include "thanos.fullname" . }}-thanos-query-tls-server
-              mountPath: /thanos-tls-server
-            {{- end }}
           livenessProbe:
             httpGet:
               path: /-/healthy
@@ -85,15 +67,4 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}
-      volumes:
-      {{- if .Values.query.tlsClient.enabled }}
-        - name: {{ include "thanos.fullname" . }}-thanos-query-tls-client
-          secret:
-            secretName: {{ include "thanos.fullname" . }}-thanos-query-tls-client
-      {{- end }}
-      {{- if .Values.query.tlsServer.enabled }}
-        - name: {{ include "thanos.fullname" . }}-thanos-query-tls-server
-          secret:
-            secretName: {{ include "thanos.fullname" . }}-thanos-query-tls-server
-      {{- end }}
 {{- end -}}
