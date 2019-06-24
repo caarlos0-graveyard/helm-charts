@@ -4,9 +4,9 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ include "thanos.fullname" . }}-query
-{{- with .Values.query.ingress.annotations }}
+{{- if .Values.query.ingress.annotations }}
   annotations:
-{{ toYaml . | indent 4 }}
+{{ toYaml .Values.query.ingress.annotations | indent 4 }}
 {{- end }}
   labels:
     app.kubernetes.io/name: {{ include "thanos.name" . }}
@@ -16,7 +16,7 @@ metadata:
     app.kubernetes.io/component: query
 spec:
   rules:
-  - host: {{- if .Values.query.ingress.host }}
+  - host: {{ .Values.query.ingress.host | quote }}
     http:
       paths:
       - path: /
