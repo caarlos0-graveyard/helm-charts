@@ -1,0 +1,27 @@
+{{- if .Values.query.enabled }}
+{{- if .Values.query.ingress.host }}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "thanos.fullname" . }}-query
+{{- with .Values.query.ingress.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+  labels:
+    app.kubernetes.io/name: {{ include "thanos.name" . }}
+    helm.sh/chart: {{ include "thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: query
+spec:
+  rules:
+  - host: {{- if .Values.query.ingress.host }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ include "thanos.fullname" . }}-query-grpc
+          servicePort: 10901
+{{- end -}}
+{{- end -}}
