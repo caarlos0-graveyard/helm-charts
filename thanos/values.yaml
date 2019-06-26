@@ -62,7 +62,8 @@ store:
 
   ingress:
     host: ""
-    annotations: {}
+    annotations:
+      ingress.kubernetes.io/protocol: h2c
 
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
@@ -111,7 +112,8 @@ query:
 
   ingress:
     host: ""
-    annotations: {}
+    annotations:
+      ingress.kubernetes.io/protocol: h2c
 
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
@@ -161,4 +163,5 @@ sidecar:
 
   ingress:
     host: ""
-    annotations: {}
+    annotations:
+      ingress.kubernetes.io/protocol: h2c
