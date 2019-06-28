@@ -190,7 +190,7 @@ helm upgrade --install --namespace thanos thanos ./thanos \
 - [x] recommended dashboards for thanos components
 - [x] thanos as datasource in grafana
 - [x] objectstore config as file
-- [ ] ingresses?
+- [x] ingresses?
 - [x] repo/releases
 
 ---
