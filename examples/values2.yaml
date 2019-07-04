@@ -25,7 +25,7 @@ prometheus-operator:
           key: store.yaml
 
 query:
-  replicaCount: 2
+  replicas: 2
   stores:
     - dnssrv+_grpc._tcp.thanos2-sidecar-grpc.thanos2.svc.cluster.local
 

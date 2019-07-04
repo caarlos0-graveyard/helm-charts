@@ -11,8 +11,8 @@ prometheus-operator:
           key: store.yaml
 
 query:
-  replicaCount: 2
+  replicas: 2
   logLevel: info
 
 store:
-  replicaCount: 2
+  replicas: 2

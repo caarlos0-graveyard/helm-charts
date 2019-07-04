@@ -10,7 +10,7 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/component: compact
 spec:
-  replicas: {{ .Values.compact.replicaCount }}
+  replicas: {{ .Values.compact.replicas }}
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "thanos.name" . }}

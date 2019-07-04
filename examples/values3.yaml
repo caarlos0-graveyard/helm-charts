@@ -25,8 +25,8 @@ prometheus-operator:
       # GF_AUTH_OAUTH_AUTO_LOGIN: 'true'
 
 query:
-  replicaCount: 2
+  replicas: 2
   logLevel: info
 
 store:
-  replicaCount: 2
+  replicas: 2

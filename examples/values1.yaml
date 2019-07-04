@@ -11,7 +11,7 @@ prometheus-operator:
           key: store.yaml
 
 query:
-  replicaCount: 2
+  replicas: 2
   logLevel: info
   stores:
     - dnssrv+_grpc._tcp.thanos1-store-grpc.thanos1.svc.cluster.local
@@ -19,4 +19,4 @@ query:
     - dnssrv+_grpc._tcp.thanos2-query-grpc.thanos2.svc.cluster.local
 
 store:
-  replicaCount: 2
+  replicas: 2
