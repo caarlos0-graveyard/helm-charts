@@ -1,12 +1,12 @@
 {{- if .Values.query.enabled }}
-{{- if .Values.query.grpcIngress.host }}
+{{- if .Values.query.httpIngress.host }}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ include "thanos.fullname" . }}-query
-{{- if .Values.query.grpcIngress.annotations }}
+  name: {{ include "thanos.fullname" . }}-query-http
+{{- if .Values.query.httpIngress.annotations }}
   annotations:
-{{ toYaml .Values.query.grpcIngress.annotations | indent 4 }}
+{{ toYaml .Values.query.httpIngress.annotations | indent 4 }}
 {{- end }}
   labels:
     app.kubernetes.io/name: {{ include "thanos.name" . }}
@@ -16,12 +16,12 @@ metadata:
     app.kubernetes.io/component: query
 spec:
   rules:
-  - host: {{ .Values.query.grpcIngress.host | quote }}
+  - host: {{ .Values.query.httpIngress.host | quote }}
     http:
       paths:
       - path: /
         backend:
-          serviceName: {{ include "thanos.fullname" . }}-query-grpc
-          servicePort: 10901
+          serviceName: {{ include "thanos.fullname" . }}-query-http
+          servicePort: 10902
 {{- end -}}
 {{- end -}}

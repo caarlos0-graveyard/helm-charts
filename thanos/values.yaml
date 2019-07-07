@@ -110,10 +110,14 @@ query:
     externalTrafficPolicy: ""
     annotations: {}
 
-  ingress:
+  grpcIngress:
     host: ""
     annotations:
       ingress.kubernetes.io/protocol: h2c
+
+  httpIngress:
+    host: ""
+    annotations: {}
 
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
