@@ -15,14 +15,14 @@ spec:
   - name: thanos-store.rules
     rules:
     - alert: ThanosStoreGrpcErrorRate
-      expr: rate(grpc_server_handled_total{grpc_code=~"Unknown|ResourceExhausted|Internal|Unavailable",app="thanos-store"}[5m]) > 0
+      expr: rate(grpc_server_handled_total{grpc_code=~"Unknown|ResourceExhausted|Internal|Unavailable",job="thanos-store-http"}[5m]) > 0
       for: 5m
       annotations:
         summary: Thanos Store is returning Internal/Unavailable errors
         impact: Long Term Storage Prometheus queries are failing
         action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
     - alert: ThanosStoreBucketOperationsFailed
-      expr: rate(thanos_objstore_bucket_operation_failures_total{app="thanos-store"}[5m]) > 0
+      expr: rate(thanos_objstore_bucket_operation_failures_total{job="thanos-store-http"}[5m]) > 0
       for: 5m
       annotations:
         summary: Thanos Store is failing to do bucket operations
