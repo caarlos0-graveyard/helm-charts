@@ -42,6 +42,9 @@ spec:
             {{- if .Values.compact.wait }}
             - "--wait"
             {{- end }}
+            {{- with .Values.compact.maxCompactionLevel }}
+            - "--debug.max-compaction-level={{ . }}"
+            {{- end }}
           ports:
             - name: http
               containerPort: 10902
