@@ -18,13 +18,13 @@ spec:
       expr: thanos_compactor_halted{job="thanos-compact-http"} == 1
       for: 5m
       annotations:
-        summary: Thanos compaction has failed to run and now is halted
+        summary: Thanos Compact has failed to run and now is halted
         impact: Long term storage queries will be slower
         action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
-    - alert: ThanosCompactCompactionsFailed
-      expr: rate(prometheus_tsdb_compactions_failed_total{job="thanos-compact-http"}[5m]) > 0
+    - alert: ThanosCompactCompactsFailed
+      expr: rate(prometheus_tsdb_Compacts_failed_total{job="thanos-compact-http"}[5m]) > 0
       annotations:
-        summary: Thanos Compact is failing compaction
+        summary: Thanos Compact is failing Compact
         impact: Long term storage queries will be slower
         action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
     - alert: ThanosCompactBucketOperationsFailed
@@ -36,21 +36,21 @@ spec:
     - alert: ThanosCompactNotRunIn24Hours
       expr: (time() - max(thanos_objstore_bucket_last_successful_upload_time{job="thanos-compact-http"}) ) /60/60 > 24
       annotations:
-        summary: Thanos Compaction has not been run in 24 hours
+        summary: Thanos Compact has not been run in 24 hours
         impact: Long term storage queries will be slower
         action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
     - alert: ThanosComactionIsNotRunning
       expr: up{job="thanos-compact-http"} == 0 or absent({job="thanos-compact-http"})
       for: 5m
       annotations:
-        summary: Thanos Compaction is not running
+        summary: Thanos Compact is not running
         impact: Long term storage queries will be slower
         action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
-    - alert: ThanosComactionMultipleCompactionsAreRunning
+    - alert: ThanosComactionMultipleCompactsAreRunning
       expr: sum(up{job="thanos-compact-http"}) > 1
       for: 5m
       annotations:
-        summary: Multiple replicas of Thanos compaction shouldn't be running.
+        summary: Multiple replicas of Thanos Compact shouldn't be running.
         impact: Metrics in long term storage may be corrupted
         action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
 {{- end -}}

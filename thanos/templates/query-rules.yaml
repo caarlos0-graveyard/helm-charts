@@ -14,6 +14,12 @@ spec:
   groups:
   - name: thanos-query.rules
     rules:
+    - alert: ThanosQueryIsNotRunning
+      expr: up{job="thanos-query-http"} == 0 or absent({job="thanos-query-http"})
+      for: 5m
+      annotations:
+        summary: Thanos Query is not running
+        action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
     - alert: ThanosQueryGrpcErrorRate
       expr: rate(grpc_server_handled_total{grpc_code=~"Unknown|ResourceExhausted|Internal|Unavailable",job="thanos-query-http"}[5m]) > 0
       for: 5m
