@@ -57,6 +57,14 @@ kubectl -n thanos port-forward svc/thanos-grafana 3000:80
 
 ---
 
+## Upgrading from 1.x to 2.x
+
+v2.0.0 upgrades the prometheus-operator dependency, which requires a forced
+helm upgrade. Check [their docs](https://github.com/helm/charts/tree/master/stable/prometheus-operator#upgrading-from-5xx-to-6xx)
+for more info.
+
+---
+
 ## Multi-cluster architecture
 
 On a multi-cluster (global) architecture the idea is to deploy the "full thing""
