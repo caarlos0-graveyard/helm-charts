@@ -167,6 +167,7 @@ sidecar:
     externalTrafficPolicy: ""
 
   ingress:
-    host: ""
+    basename: ""
+    domain: ""
     annotations:
       ingress.kubernetes.io/protocol: h2c

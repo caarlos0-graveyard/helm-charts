@@ -1,25 +1,37 @@
-{{- if .Values.sidecar.ingress.host }}
+{{- if and .Values.sidecar.ingress.basename .Values.sidecar.ingress.domain }}
+{{- $count := (index .Values "prometheus-operator" "prometheus" "prometheusSpec" "replicas" | int) }}
+{{- $fullname := include "thanos.fullname" . }}
+{{- $name := include "thanos.name" . }}
+{{- $chart := include "thanos.chart" . }}
+{{- $releaseName := .Release.Name }}
+{{- $service := .Release.Service }}
+{{- $annotations := .Values.sidecar.ingress.annotations }}
+{{- $domain := .Values.sidecar.ingress.domain }}
+{{- $basename := .Values.sidecar.ingress.basename }}
+{{- range $replica := until $count }}
+---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ include "thanos.fullname" . }}-sidecar
-{{- if .Values.sidecar.ingress.annotations }}
+  name: {{ $fullname }}-sidecar-{{ $replica }}
+{{- with $annotations }}
   annotations:
-{{ toYaml .Values.sidecar.ingress.annotations | indent 4 }}
+{{ toYaml . | indent 4 }}
 {{- end }}
   labels:
-    app.kubernetes.io/name: {{ include "thanos.name" . }}
-    helm.sh/chart: {{ include "thanos.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ $name }}
+    helm.sh/chart: {{ $chart }}
+    app.kubernetes.io/instance: {{ $releaseName }}
+    app.kubernetes.io/managed-by: {{ $service }}
     app.kubernetes.io/component: sidecar
 spec:
   rules:
-  - host: {{ .Values.sidecar.ingress.host | quote }}
+  - host: "{{ $basename }}-{{ $replica }}.{{ $domain }}"
     http:
       paths:
       - path: /
         backend:
-          serviceName: {{ include "thanos.fullname" . }}-sidecar-grpc
+          serviceName: {{ $fullname }}-sidecar-grpc-{{ $replica }}
           servicePort: 10901
 {{- end -}}
+{{- end }}
