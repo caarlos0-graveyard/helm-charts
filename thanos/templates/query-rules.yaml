@@ -20,6 +20,7 @@ spec:
       annotations:
         summary: Thanos Query is not running
         action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
+        severity: critical
     - alert: ThanosQueryGrpcErrorRate
       expr: rate(grpc_server_handled_total{grpc_code=~"Unknown|ResourceExhausted|Internal|Unavailable",job="thanos-query-http"}[5m]) > 0
       for: 5m
@@ -27,4 +28,5 @@ spec:
         summary: Thanos Query is returning Internal/Unavailable errors
         impact: Grafana is not showing metrics
         action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
+        severity: warning
 {{- end -}}

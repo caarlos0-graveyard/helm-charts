@@ -21,6 +21,7 @@ spec:
         summary: Thanos Store is returning Internal/Unavailable errors
         impact: Long Term Storage Prometheus queries are failing
         action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
+        severity: warning
     - alert: ThanosStoreBucketOperationsFailed
       expr: rate(thanos_objstore_bucket_operation_failures_total{job="thanos-store-http"}[5m]) > 0
       for: 5m
@@ -28,6 +29,7 @@ spec:
         summary: Thanos Store is failing to do bucket operations
         impact: Long Term Storage Prometheus queries are failing
         action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
+        severity: warning
     - alert: ThanosStoreIsNotRunning
       expr: up{job="thanos-store-http"} == 0 or absent({job="thanos-store-http"})
       for: 5m
@@ -35,4 +37,5 @@ spec:
         summary: Thanos Store is not running
         impact: Long term storage queries will not work
         action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
+        severity: critical
 {{- end -}}

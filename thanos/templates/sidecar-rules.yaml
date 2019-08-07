@@ -20,6 +20,7 @@ spec:
         summary: Thanos Sidecar cannot connect to Prometheus
         impact: Prometheus configuration is not being refreshed
         action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
+        severity: warning
     - alert: ThanosSidecarBucketOperationsFailed
       expr: rate(thanos_objstore_bucket_operation_failures_total{job="thanos-sidecar-http"}[5m]) > 0
       for: 5m
@@ -27,6 +28,7 @@ spec:
         summary: Thanos Sidecar bucket operations are failing
         impact: We will lose metrics data if not fixed in 24h
         action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
+        severity: warning
     - alert: ThanosSidecarGrpcErrorRate
       expr: rate(grpc_server_handled_total{grpc_code=~"Unknown|ResourceExhausted|Internal|Unavailable",job="thanos-sidecar-http"}[5m]) > 0
       for: 5m
@@ -34,3 +36,4 @@ spec:
         summary: Thanos Sidecar is returning Internal/Unavailable errors
         impact: Prometheus queries are failing
         action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
+        severity: warning
