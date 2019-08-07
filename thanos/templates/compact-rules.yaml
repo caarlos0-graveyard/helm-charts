@@ -19,44 +19,38 @@ spec:
       for: 5m
       annotations:
         summary: Thanos Compact has failed to run and now is halted
-        impact: Long term storage queries will be slower
-        action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
+        description: Long term storage queries will be slower
         severity: warning
     - alert: ThanosCompactCompactsFailed
       expr: rate(prometheus_tsdb_Compacts_failed_total{job="thanos-compact-http"}[5m]) > 0
       annotations:
         summary: Thanos Compact is failing Compact
-        impact: Long term storage queries will be slower
-        action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
+        description: Long term storage queries will be slower
         severity: warning
     - alert: ThanosCompactBucketOperationsFailed
       expr: rate(thanos_objstore_bucket_operation_failures_total{job="thanos-compact-http"}[5m]) > 0
       annotations:
         summary: Thanos Compact bucket operations are failing
-        impact: Long term storage queries will be slower
-        action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
+        description: Long term storage queries will be slower
         severity: warning
     - alert: ThanosCompactNotRunIn24Hours
       expr: (time() - max(thanos_objstore_bucket_last_successful_upload_time{job="thanos-compact-http"}) ) /60/60 > 24
       annotations:
         summary: Thanos Compact has not been run in 24 hours
-        impact: Long term storage queries will be slower
-        action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
+        description: Long term storage queries will be slower
         severity: warning
     - alert: ThanosComactionIsNotRunning
       expr: up{job="thanos-compact-http"} == 0 or absent({job="thanos-compact-http"})
       for: 5m
       annotations:
         summary: Thanos Compact is not running
-        impact: Long term storage queries will be slower
-        action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
+        description: Long term storage queries will be slower
         severity: critical
     - alert: ThanosComactionMultipleCompactsAreRunning
       expr: sum(up{job="thanos-compact-http"}) > 1
       for: 5m
       annotations:
         summary: Multiple replicas of Thanos Compact shouldn't be running.
-        impact: Metrics in long term storage may be corrupted
-        action: Check {{`{{ $labels.kubernetes_pod_name }}`}} pod logs in {{`{{ $labels.kubernetes_namespace}}`}} namespace
+        description: Metrics in long term storage may be corrupted
         severity: critical
 {{- end -}}
