@@ -138,6 +138,11 @@ query:
 
   affinity: {}
 
+  podDisruptionBudget:
+    enabled: false
+    minAvailable: 1
+    maxUnavailable: ""
+
 # Thanos compact configuration
 compact:
   enabled: true
