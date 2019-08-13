@@ -28,7 +28,7 @@ spec:
         app.kubernetes.io/component: query
     spec:
       containers:
-        - name: {{ .Chart.Name }}
+        - name: thanos-query
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
