@@ -28,7 +28,7 @@ spec:
         app.kubernetes.io/component: compact
     spec:
       containers:
-        - name: {{ .Chart.Name }}
+        - name: thanos-compact
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
