@@ -22,8 +22,8 @@ spec:
         description: Long Term Storage Prometheus queries are failing
         severity: warning
     - alert: ThanosStoreBucketOperationsFailed
-      expr: rate(thanos_objstore_bucket_operation_failures_total{job="thanos-store-http"}[5m]) > 0
-      for: 5m
+      expr: sum without (operation) (rate(thanos_objstore_bucket_operation_failures_total{job="thanos-store-http"}[5m])) > 0
+      for: 10m
       annotations:
         summary: Thanos Store is failing to do bucket operations
         description: Long Term Storage Prometheus queries are failing
