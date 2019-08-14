@@ -17,22 +17,25 @@ spec:
     - alert: ThanosStoreGrpcErrorRate
       expr: rate(grpc_server_handled_total{grpc_code=~"Unknown|ResourceExhausted|Internal|Unavailable",job="thanos-store-http"}[5m]) > 0
       for: 5m
+      labels:
+        severity: warning
       annotations:
         summary: Thanos Store is returning Internal/Unavailable errors
         description: Long Term Storage Prometheus queries are failing
-        severity: warning
     - alert: ThanosStoreBucketOperationsFailed
       expr: sum without (operation) (rate(thanos_objstore_bucket_operation_failures_total{job="thanos-store-http"}[5m])) > 0
       for: 10m
+      labels:
+        severity: warning
       annotations:
         summary: Thanos Store is failing to do bucket operations
         description: Long Term Storage Prometheus queries are failing
-        severity: warning
     - alert: ThanosStoreIsNotRunning
       expr: up{job="thanos-store-http"} == 0 or absent({job="thanos-store-http"})
       for: 5m
+      labels:
+        severity: critical
       annotations:
         summary: Thanos Store is not running
         description: Long term storage queries will not work
-        severity: critical
 {{- end -}}
