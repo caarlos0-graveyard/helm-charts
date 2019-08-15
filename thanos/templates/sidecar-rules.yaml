@@ -35,5 +35,5 @@ spec:
       labels:
         severity: warning
       annotations:
-        summary: '{{ $labels.pod }}: Thanos Sidecar is returning Internal/Unavailable errors'
+        summary: Thanos Sidecar is returning Internal/Unavailable errors
         description: Prometheus queries are failing
