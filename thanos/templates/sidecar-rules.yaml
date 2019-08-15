@@ -14,7 +14,7 @@ spec:
   - name: thanos-sidecar.rules
     rules:
     - alert: ThanosSidecarPrometheusDown
-      expr: thanos_sidecar_prometheus_up{job="thanos-sidecar-http"} == 0
+      expr: thanos_sidecar_prometheus_up{job="thanos-sidecar-http"} == 0 or absent({job="thanos-sidecar-http"})
       for: 5m
       labels:
         severity: warning
@@ -28,12 +28,12 @@ spec:
         severity: warning
       annotations:
         summary: Thanos Sidecar bucket operations are failing
-        description: We will lose metrics data if not fixed in 24h
+        description: We will lose metrics data if not fixed
     - alert: ThanosSidecarGrpcErrorRate
       expr: rate(grpc_server_handled_total{grpc_code=~"Unknown|ResourceExhausted|Internal|Unavailable",job="thanos-sidecar-http"}[5m]) > 0
-      for: 5m
+      for: 15m
       labels:
         severity: warning
       annotations:
-        summary: Thanos Sidecar is returning Internal/Unavailable errors
+        summary: '{{ $labels.pod }}: Thanos Sidecar is returning Internal/Unavailable errors'
         description: Prometheus queries are failing

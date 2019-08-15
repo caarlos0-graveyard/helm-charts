@@ -23,10 +23,10 @@ spec:
         summary: Thanos Query is not running
     - alert: ThanosQueryGrpcErrorRate
       expr: rate(grpc_server_handled_total{grpc_code=~"Unknown|ResourceExhausted|Internal|Unavailable",job="thanos-query-http"}[5m]) > 0
-      for: 5m
+      for: 15m
       labels:
         severity: warning
       annotations:
-        summary: Thanos Query is returning Internal/Unavailable errors
+        summary: '{{ $labels.pod }}: Thanos Query is returning Internal/Unavailable errors'
         description: Grafana is not showing metrics
 {{- end -}}
