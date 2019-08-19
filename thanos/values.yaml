@@ -147,7 +147,7 @@ query:
 # EXPERIMENTAL COMPONENT
 # Thanos receive configuration
 receive:
-  enabled: true
+  enabled: false
   replicaCount: 1
 
   logLevel: info
