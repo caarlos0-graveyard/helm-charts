@@ -98,6 +98,7 @@ query:
   stores:
     - dnssrv+_grpc._tcp.thanos-store-grpc.thanos.svc.cluster.local
     - dnssrv+_grpc._tcp.thanos-sidecar-grpc.thanos.svc.cluster.local
+    - dnssrv+_grpc._tcp.thanos-receive-grpc.thanos.svc.cluster.local
   queryReplicaLabel: prometheus_replica
 
   deployment:
