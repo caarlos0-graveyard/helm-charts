@@ -1,0 +1,71 @@
+{{- if .Values.receive.enabled }}
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ include "thanos.fullname" . }}-receive
+  labels:
+    app.kubernetes.io/name: {{ include "thanos.name" . }}
+    helm.sh/chart: {{ include "thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: receive
+spec:
+  replicas: {{ .Values.receive.replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "thanos.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/component: receive
+  template:
+    metadata:
+    {{- if .Values.receive.deployment.annotations }}
+      annotations:
+{{ toYaml .Values.receive.deployment.annotations | indent 8 }}
+    {{- end }}
+      labels:
+        app.kubernetes.io/name: {{ include "thanos.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/component: receive
+    spec:
+      containers:
+        - name: thanos-receive
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - "receive"
+            - "--log.level={{ .Values.receive.logLevel }}"
+            - "--objstore.config-file=/etc/thanos-object-store/store.yaml"
+            - "--tsdb.path=/var/thanos/receive"
+            - "--tsdb.retention=1h"
+          ports:
+            - name: http
+              containerPort: 19291
+            - name: metrics
+              containerPort: 10902
+            - name: grpc
+              containerPort: 10901
+          volumeMounts:
+            - name: data
+              mountPath: /var/thanos/receive
+            - name: object-store
+              mountPath: /etc/thanos-object-store
+          resources:
+{{ toYaml .Values.receive.resources | indent 12 }}
+    {{- with .Values.receive.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.receive.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.receive.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+        - name: data
+        - name: object-store
+          secret:
+            secretName: {{ include "thanos.fullname" . }}-thanos-object-store
+{{- end -}}

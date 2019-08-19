@@ -1,0 +1,28 @@
+{{- if .Values.receive.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "thanos.fullname" . }}-receive-grpc
+{{- if .Values.receive.grpcService.annotations }}
+  annotations:
+{{ toYaml .Values.receive.grpcService.annotations | indent 4 }}
+{{- end }}
+  labels:
+    app.kubernetes.io/name: {{ include "thanos.name" . }}
+    helm.sh/chart: {{ include "thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: receive
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - port: 10901
+      targetPort: grpc
+      protocol: TCP
+      name: grpc
+  selector:
+    app.kubernetes.io/name: {{ include "thanos.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: receive
+{{- end -}}

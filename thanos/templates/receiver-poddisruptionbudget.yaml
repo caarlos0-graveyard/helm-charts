@@ -1,0 +1,22 @@
+{{- if and .Values.receive.enabled .Values.receive.podDisruptionBudget.enabled }}
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ include "thanos.fullname" . }}-receive
+  labels:
+    app.kubernetes.io/name: {{ include "thanos.name" . }}
+    helm.sh/chart: {{ include "thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: receive
+spec:
+  {{- if .Values.receive.podDisruptionBudget.minAvailable }}
+  minAvailable: {{ .Values.receive.podDisruptionBudget.minAvailable }}
+  {{- end  }}
+  {{- if .Values.receive.podDisruptionBudget.maxUnavailable }}
+  maxUnavailable: {{ .Values.receive.podDisruptionBudget.maxUnavailable }}
+  {{- end  }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: receive
+{{- end -}}
