@@ -10,8 +10,6 @@ kubectl create clusterrolebinding tiller-cluster-admin --clusterrole=cluster-adm
 helm init --service-account tiller --upgrade --wait
 
 helm upgrade --install --namespace thanos thanos ./thanos \
-	--wait \
-	--timeout 600 \
 	-f values.yaml \
 	--set-file objectStore=thanos-storage-config.yaml \
 	--debug

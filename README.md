@@ -183,6 +183,17 @@ helm upgrade --install --namespace thanos thanos ./thanos \
 
 ---
 
+## Uninstalling
+
+```sh
+helm del --purge thanos
+kubectl delete crd prometheuses.monitoring.coreos.com
+kubectl delete crd prometheusrules.monitoring.coreos.com
+kubectl delete crd servicemonitors.monitoring.coreos.com
+kubectl delete crd podmonitors.monitoring.coreos.com
+kubectl delete crd alertmanagers.monitoring.coreos.com
+```
+
 ## TODO
 
 - [x] remove peering options (deprecated on thanos 0.4.0+)
