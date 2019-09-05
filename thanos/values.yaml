@@ -4,7 +4,7 @@ prometheus-operator:
       replicas: 1
       retention: 4h
       image:
-        tag: v2.10.0
+        tag: v2.12.0
       # this is needed to make prometheus-operator do the expected thing and
       # actually use servicemonitors and prometheusrules created 'from outside'
       # the helm chart.
@@ -16,7 +16,8 @@ prometheus-operator:
       ruleSelector: {}
       prometheusExternalLabelNameClear: true
       thanos:
-        tag: v0.6.0
+        baseImage: thanosio/thanos
+        tag: v0.7.0
 
   grafana:
     adminPassword: admin
@@ -36,8 +37,8 @@ prometheus-operator:
         label: grafana_dashboard
 
 image:
-  repository: improbable/thanos
-  tag: v0.6.0
+  repository: thanosio/thanos
+  tag: v0.7.0
   pullPolicy: IfNotPresent
 
 nameOverride: ""
