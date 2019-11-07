@@ -34,7 +34,7 @@ spec:
       expr: up{job="thanos-store-http"} == 0 or absent({job="thanos-store-http"})
       for: 5m
       labels:
-        severity: critical
+        severity: warning
       annotations:
         summary: Thanos Store is not running
         description: Long term storage queries will not work

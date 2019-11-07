@@ -18,7 +18,7 @@ spec:
       expr: up{job="thanos-query-http"} == 0 or absent({job="thanos-query-http"})
       for: 5m
       labels:
-        severity: critical
+        severity: warning
       annotations:
         summary: Thanos Query is not running
     - alert: ThanosQueryGrpcErrorRate
