@@ -11,6 +11,9 @@ prometheus-operator:
       serviceMonitorSelectorNilUsesHelmValues: false
       serviceMonitorNamespaceSelector: {}
       serviceMonitorSelector: {}
+      podMonitorSelectorNilUsesHelmValues: false
+      podMonitorNamespaceSelector: {}
+      podMonitorSelector: {}
       ruleSelectorNilUsesHelmValues: false
       ruleNamespaceSelector: {}
       ruleSelector: {}
