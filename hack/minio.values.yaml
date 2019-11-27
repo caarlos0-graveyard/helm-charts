@@ -1,0 +1,8 @@
+accessKey: my-key-123456
+secretKey: my-super-duper-secret-123456
+persistence:
+  enabled: false
+buckets:
+  - name: thanos
+    policy: none
+    purge: false

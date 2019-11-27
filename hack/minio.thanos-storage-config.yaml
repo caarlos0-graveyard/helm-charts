@@ -1,0 +1,6 @@
+type: S3
+config:
+  bucket: "thanos"
+  endpoint: "minio"
+  access_key: my-key-123456
+  secret_key: my-super-duper-secret-123456
