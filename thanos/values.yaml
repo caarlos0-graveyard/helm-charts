@@ -54,6 +54,9 @@ store:
 
   logLevel: info
 
+  minTime: ""
+  maxTime: ""
+
   deployment:
     annotations: {}
 
