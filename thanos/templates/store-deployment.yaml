@@ -36,6 +36,12 @@ spec:
             - "--log.level={{ .Values.store.logLevel }}"
             - "--data-dir=/var/thanos/store"
             - "--objstore.config-file=/etc/thanos-object-store/store.yaml"
+            {{- with .Values.store.minTime }}
+            - "--min-time={{ . }}"
+            {{- end }}
+            {{- with .Values.store.maxTime }}
+            - "--max-time={{ . }}"
+            {{- end }}
           ports:
             - name: http
               containerPort: 10902
