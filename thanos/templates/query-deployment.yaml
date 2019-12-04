@@ -54,6 +54,10 @@ spec:
             httpGet:
               path: /-/healthy
               port: http
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: http
           resources:
 {{ toYaml .Values.query.resources | indent 12 }}
     {{- with .Values.query.nodeSelector }}
