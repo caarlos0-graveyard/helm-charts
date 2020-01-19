@@ -11,6 +11,8 @@ metadata:
     app.kubernetes.io/component: store
 spec:
   replicas: {{ .Values.store.replicas }}
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "thanos.name" . }}
