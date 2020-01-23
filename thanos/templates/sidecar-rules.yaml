@@ -23,12 +23,12 @@ spec:
         description: Prometheus configuration is not being refreshed
     - alert: ThanosSidecarBucketOperationsFailed
       expr: sum without (operation) (rate(thanos_objstore_bucket_operation_failures_total{job="thanos-sidecar-http"}[5m])) > 0
-      for: 10m
+      for: 30m
       labels:
         severity: warning
       annotations:
         summary: Thanos Sidecar bucket operations are failing
-        description: We will lose metrics data if not fixed
+        description: We may lose metrics data if this keeps happening
     - alert: ThanosSidecarGrpcErrorRate
       expr: rate(grpc_server_handled_total{grpc_code=~"Unknown|ResourceExhausted|Internal|Unavailable",job="thanos-sidecar-http"}[5m]) > 0
       for: 15m
