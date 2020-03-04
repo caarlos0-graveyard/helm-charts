@@ -44,6 +44,9 @@ spec:
             {{- with .Values.store.maxTime }}
             - "--max-time={{ . }}"
             {{- end }}
+            {{- if .Values.store.enableIndexHeader }}
+            - --experimental.enable-index-header
+            {{- end }}
           ports:
             - name: http
               containerPort: 10902
