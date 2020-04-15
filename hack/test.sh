@@ -18,7 +18,6 @@ helm upgrade --install --namespace thanos minio \
 helm upgrade --install --namespace thanos thanos ./thanos \
 	-f values.yaml \
 	--set-file objectStore=hack/minio.thanos-storage-config.yaml \
-	--set store.minTime=-4w \
-	--set store.enableIndexHeader=true
+	--set store.minTime=-4w
 
 # read -p "Press enter to continue"
