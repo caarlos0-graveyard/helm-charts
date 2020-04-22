@@ -38,6 +38,7 @@ spec:
         summary: Thanos Compact bucket operations are failing
     - alert: ThanosCompactNotRunIn24Hours
       expr: (time() - max(thanos_objstore_bucket_last_successful_upload_time{job="thanos-compact-http"}) ) /60/60 > 24
+      for: 10m
       labels:
         severity: warning
       annotations:
