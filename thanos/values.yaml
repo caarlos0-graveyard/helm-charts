@@ -20,7 +20,7 @@ prometheus-operator:
       prometheusExternalLabelNameClear: true
       thanos:
         baseImage: thanosio/thanos
-        tag: v0.12.1
+        tag: v0.12.2
 
   grafana:
     adminPassword: admin
@@ -41,7 +41,7 @@ prometheus-operator:
 
 image:
   repository: thanosio/thanos
-  tag: v0.12.1
+  tag: v0.12.2
   pullPolicy: IfNotPresent
 
 nameOverride: ""
