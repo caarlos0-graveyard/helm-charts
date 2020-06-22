@@ -1,6 +1,5 @@
 #!/bin/sh
 set -e
-helm init --client-only
 helm lint thanos
 mkdir -p pkg
 
