@@ -50,12 +50,12 @@ spec:
             - name: grpc
               containerPort: 10901
           livenessProbe:
-            initialDelaySeconds: {{ .Values.liveness.initialDelaySeconds }}
+            initialDelaySeconds: {{ .Values.store.liveness.initialDelaySeconds }}
             httpGet:
               path: /-/healthy
               port: http
           readinessProbe:
-            initialDelaySeconds: {{ .Values.readiness.initialDelaySeconds }}
+            initialDelaySeconds: {{ .Values.store.readiness.initialDelaySeconds }}
             httpGet:
               path: /-/ready
               port: http
