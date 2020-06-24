@@ -1,12 +1,12 @@
 {{- if .Values.bucketweb.enabled }}
-{{- if .Values.bucketweb.httpIngress.host }}
+{{- if .Values.bucketweb.ingress.host }}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ include "thanos.fullname" . }}-bucket-web
-{{- if .Values.bucketweb.httpIngress.annotations }}
+{{- if .Values.bucketweb.ingress.annotations }}
   annotations:
-{{ toYaml .Values.bucketweb.httpIngress.annotations | indent 4 }}
+{{ toYaml .Values.bucketweb.ingress.annotations | indent 4 }}
 {{- end }}
   labels:
     app.kubernetes.io/name: {{ include "thanos.name" . }}
@@ -16,7 +16,7 @@ metadata:
     app.kubernetes.io/component: bucket-web
 spec:
   rules:
-  - host: {{ .Values.bucketweb.httpIngress.host | quote }}
+  - host: {{ .Values.bucketweb.ingress.host | quote }}
     http:
       paths:
       - path: /

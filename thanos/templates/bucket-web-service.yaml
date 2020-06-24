@@ -3,9 +3,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "thanos.fullname" . }}-bucket-web
-{{- if .Values.bucketweb.httpService.annotations }}
+{{- if .Values.bucketweb.service.annotations }}
   annotations:
-{{ toYaml .Values.bucketweb.httpService.annotations | indent 4 }}
+{{ toYaml .Values.bucketweb.service.annotations | indent 4 }}
 {{- end }}
   labels:
     app.kubernetes.io/name: {{ include "thanos.name" . }}
@@ -14,9 +14,9 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/component: bucket-web
 spec:
-  type: {{ .Values.bucketweb.httpService.type }}
-  {{- if .Values.bucketweb.httpService.externalTrafficPolicy }}
-  externalTrafficPolicy: {{ .Values.bucketweb.httpService.externalTrafficPolicy }}
+  type: {{ .Values.bucketweb.service.type }}
+  {{- if .Values.bucketweb.service.externalTrafficPolicy }}
+  externalTrafficPolicy: {{ .Values.bucketweb.service.externalTrafficPolicy }}
   {{- end }}
   ports:
     - port: 10902

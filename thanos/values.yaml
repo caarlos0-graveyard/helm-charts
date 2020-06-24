@@ -50,7 +50,7 @@ fullnameOverride: ""
 # Thanos store configuration
 store:
   enabled: true
-  replicaCount: 1
+  replicas: 1
 
   logLevel: info
 
@@ -100,7 +100,7 @@ store:
 # Thanos query configuration
 query:
   enabled: true
-  replicaCount: 1
+  replicas: 1
   logLevel: info
 
   # enable --grpc-client-tls-secure
@@ -156,10 +156,37 @@ query:
     minAvailable: 1
     maxUnavailable: ""
 
+# Thanos tool bucket web configuration
+bucketweb:
+  enabled: true
+  replicas: 1
+
+  logLevel: info
+
+  deployment:
+    annotations: {}
+
+  service:
+    type: ClusterIP
+    externalTrafficPolicy: ""
+    annotations: {}
+
+  ingress:
+    host: ""
+    annotations: {}
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
 # Thanos compact configuration
 compact:
   enabled: true
-  replicaCount: 1
+  replicas: 1
 
   syncDelay: 30m
   retentionResolutionRaw: 0d
