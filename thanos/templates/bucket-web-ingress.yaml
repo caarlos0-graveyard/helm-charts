@@ -1,0 +1,27 @@
+{{- if .Values.bucketweb.enabled }}
+{{- if .Values.bucketweb.httpIngress.host }}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "thanos.fullname" . }}-bucket-web
+{{- if .Values.bucketweb.httpIngress.annotations }}
+  annotations:
+{{ toYaml .Values.bucketweb.httpIngress.annotations | indent 4 }}
+{{- end }}
+  labels:
+    app.kubernetes.io/name: {{ include "thanos.name" . }}
+    helm.sh/chart: {{ include "thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: bucket-web
+spec:
+  rules:
+  - host: {{ .Values.bucketweb.httpIngress.host | quote }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ include "thanos.fullname" . }}-bucket-web
+          servicePort: 10902
+{{- end -}}
+{{- end -}}

@@ -1,0 +1,74 @@
+{{- if .Values.bucketweb.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "thanos.fullname" . }}-bucket-web
+  labels:
+    app.kubernetes.io/name: {{ include "thanos.name" . }}
+    helm.sh/chart: {{ include "thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: bucket-web
+spec:
+  replicas: {{ .Values.bucketweb.replicas }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "thanos.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/component: bucket-web
+  template:
+    metadata:
+    {{- if .Values.bucketweb.deployment.annotations }}
+      annotations:
+{{ toYaml .Values.bucketweb.deployment.annotations | indent 8 }}
+    {{- end }}
+      labels:
+        app.kubernetes.io/name: {{ include "thanos.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/component: bucket-web
+    spec:
+      containers:
+        - name: thanos-bucket-web
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - "tools"
+            - "bucket"
+            - "web"
+            - "--log.level={{ .Values.bucketweb.logLevel }}"
+            - "--objstore.config-file=/etc/thanos-object-store/store.yaml"
+          ports:
+            - name: http
+              containerPort: 10902
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: http
+          volumeMounts:
+            - name: object-store
+              mountPath: /etc/thanos-object-store
+          resources:
+{{ toYaml .Values.bucketweb.resources | indent 12 }}
+    {{- with .Values.bucketweb.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.bucketweb.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.bucketweb.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+        - name: object-store
+          secret:
+            secretName: {{ include "thanos.fullname" . }}-thanos-object-store
+{{- end -}}
