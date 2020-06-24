@@ -57,6 +57,12 @@ store:
   minTime: ""
   maxTime: ""
 
+  readiness:
+    initialDelaySeconds: 300
+
+  liveness:
+    initialDelaySeconds: 300
+
   deployment:
     annotations: {}
 
