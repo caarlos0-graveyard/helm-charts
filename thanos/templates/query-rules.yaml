@@ -22,8 +22,8 @@ spec:
       annotations:
         summary: Thanos Query is not running
     - alert: ThanosQueryGrpcErrorRate
-      expr: rate(grpc_server_handled_total{grpc_code=~"Unknown|ResourceExhausted|Internal|Unavailable",job="thanos-query-http"}[5m]) > 0
-      for: 15m
+      expr: rate(grpc_server_handled_total{grpc_code=~"Unknown|ResourceExhausted|Internal|Unavailable",job="thanos-query-http"}[5m]) > 1
+      for: 10m
       labels:
         severity: warning
       annotations:
