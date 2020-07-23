@@ -4,7 +4,7 @@ prometheus-operator:
       replicas: 1
       retention: 4h
       image:
-        tag: v2.19.2
+        tag: v2.20.0
       # this is needed to make prometheus-operator do the expected thing and
       # actually use servicemonitors and prometheusrules created 'from outside'
       # the helm chart.
