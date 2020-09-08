@@ -2,13 +2,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "thanos.fullname" . }}-query-frontnend
+  name: {{ include "thanos.fullname" . }}-query-frontend
   labels:
     app.kubernetes.io/name: {{ include "thanos.name" . }}
     helm.sh/chart: {{ include "thanos.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/component: query-frontnend
+    app.kubernetes.io/component: query-frontend
 spec:
   replicas: {{ .Values.queryfrontend.replicas }}
   strategy:
@@ -17,7 +17,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: {{ include "thanos.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
-      app.kubernetes.io/component: query-frontnend
+      app.kubernetes.io/component: query-frontend
   template:
     metadata:
     {{- if .Values.queryfrontend.deployment.annotations }}
@@ -27,10 +27,10 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "thanos.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
-        app.kubernetes.io/component: query-frontnend
+        app.kubernetes.io/component: query-frontend
     spec:
       containers:
-        - name: thanos-query-frontnend
+        - name: thanos-query-frontend
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
@@ -70,5 +70,5 @@ spec:
       volumes:
         - name: config
           configMap:
-            name: {{ include "thanos.fullname" . }}-query-frontnend
+            name: {{ include "thanos.fullname" . }}-query-frontend
 {{- end -}}
