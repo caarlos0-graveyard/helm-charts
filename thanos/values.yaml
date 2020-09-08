@@ -188,7 +188,7 @@ queryfrontend:
   enabled: true
   replicas: 1
 
-  downstreamURL: "thanos-query-http:10902"
+  downstreamURL: "http://thanos-query-http:10902"
   logLevel: info
   splitInterval: 24h
 
