@@ -192,6 +192,11 @@ queryfrontend:
   logLevel: info
   splitInterval: 24h
 
+  cache:
+    max_size: ""
+    max_size_items: 0
+    validity: 0s
+
   deployment:
     annotations: {}
 

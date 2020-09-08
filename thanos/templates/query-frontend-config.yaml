@@ -13,7 +13,7 @@ data:
   cache.yml: |
     type: IN-MEMORY
     config:
-      max_size: ""
-      max_size_items: 0
-      validity: 0s
+      max_size: {{ .Values.queryfrontend.cache.max_size | quote }}
+      max_size_items: {{ .Values.queryfrontend.cache.max_size_items }}
+      validity: {{ .Values.queryfrontend.cache.validity }}
 {{- end -}}
