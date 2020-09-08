@@ -1,0 +1,27 @@
+{{- if .Values.queryfrontend.enabled }}
+{{- if .Values.queryfrontend.ingress.host }}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "thanos.fullname" . }}-query-frontend
+  {{- if .Values.queryfrontend.ingress.annotations }}
+  annotations:
+{{ toYaml .Values.queryfrontend.ingress.annotations | indent 4 }}
+{{- end }}
+  labels:
+    app.kubernetes.io/name: {{ include "thanos.name" . }}
+    helm.sh/chart: {{ include "thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: query-frontend
+spec:
+  rules:
+  - host: {{ .Values.queryfrontend.ingress.host | quote }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ include "thanos.fullname" . }}-query-frontend
+          servicePort: 10902
+{{- end -}}
+{{- end -}}

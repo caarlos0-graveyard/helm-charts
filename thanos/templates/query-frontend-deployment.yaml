@@ -1,0 +1,74 @@
+{{- if .Values.queryfrontend.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "thanos.fullname" . }}-query-frontend
+  labels:
+    app.kubernetes.io/name: {{ include "thanos.name" . }}
+    helm.sh/chart: {{ include "thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: query-frontend
+spec:
+  replicas: {{ .Values.queryfrontend.replicas }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "thanos.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/component: query-frontend
+  template:
+    metadata:
+    {{- if .Values.queryfrontend.deployment.annotations }}
+      annotations:
+{{ toYaml .Values.queryfrontend.deployment.annotations | indent 8 }}
+    {{- end }}
+      labels:
+        app.kubernetes.io/name: {{ include "thanos.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/component: query-frontend
+    spec:
+      containers:
+        - name: thanos-query-frontend
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - "query-frontend"
+            - "--query-range.split-interval={{ .Values.queryfrontend.splitInterval }}"
+            - "--log.level={{ .Values.queryfrontend.logLevel }}"
+            - "--query-frontend.downstream-url={{ .Values.queryfrontend.downstreamURL }}"
+            - "--query-range.response-cache-config-file=/etc/config/cache.yml"
+          ports:
+            - name: http
+              containerPort: 10902
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: http
+          volumeMounts:
+            - name: config
+              mountPath: /etc/config
+          resources:
+{{ toYaml .Values.queryfrontend.resources | indent 12 }}
+    {{- with .Values.queryfrontend.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.queryfrontend.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.queryfrontend.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "thanos.fullname" . }}-query-frontend
+{{- end -}}

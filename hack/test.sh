@@ -2,20 +2,16 @@
 set -e
 
 # trap 'k3d delete -n thanos-test' EXIT
-
-k3d create --name thanos-test --wait 0 --image "docker.io/rancher/k3s:v0.9.1"
-export KUBECONFIG="$(k3d get-kubeconfig --name='thanos-test')"
-export PATH="/usr/local/opt/helm@2/bin:$PATH"
-
-kubectl create serviceaccount --namespace kube-system tiller
-kubectl create clusterrolebinding tiller-cluster-admin --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-helm init --service-account tiller --upgrade --wait
+export KUBECONFIG=/tmp/thanos-test.config
+k3d cluster create thanos-test || k3d cluster start thanos-test
 
 helm upgrade --install --namespace thanos minio \
+	--create-namespace \
 	-f hack/minio.values.yaml \
-    stable/minio
+	stable/minio
 
 helm upgrade --install --namespace thanos thanos ./thanos \
+	--create-namespace \
 	-f values.yaml \
 	--set-file objectStore=hack/minio.thanos-storage-config.yaml \
 	--set store.minTime=-4w
