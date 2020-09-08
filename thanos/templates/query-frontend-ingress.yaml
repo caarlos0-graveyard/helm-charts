@@ -1,5 +1,5 @@
 {{- if .Values.queryfrontend.enabled }}
-{{- if .Values.queryfrontend.ingress.enabled }}
+{{- if .Values.queryfrontend.ingress.host }}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
