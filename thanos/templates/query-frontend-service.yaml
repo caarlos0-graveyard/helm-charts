@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "thanos.fullname" . }}-bucket-web
+  name: {{ include "thanos.fullname" . }}-query-frontend
 {{- if .Values.queryfrontend.service.annotations }}
   annotations:
 {{ toYaml .Values.queryfrontend.service.annotations | indent 4 }}
@@ -12,7 +12,7 @@ metadata:
     helm.sh/chart: {{ include "thanos.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
-    app.kubernetes.io/component: bucket-web
+    app.kubernetes.io/component: query-frontend
 spec:
   type: {{ .Values.queryfrontend.service.type }}
   {{- if .Values.queryfrontend.service.externalTrafficPolicy }}
@@ -26,5 +26,5 @@ spec:
   selector:
     app.kubernetes.io/name: {{ include "thanos.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/component: bucket-web
+    app.kubernetes.io/component: query-frontend
 {{- end -}}

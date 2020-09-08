@@ -16,3 +16,4 @@ data:
       max_size: ""
       max_size_items: 0
       validity: 0s
+{{- end -}}
