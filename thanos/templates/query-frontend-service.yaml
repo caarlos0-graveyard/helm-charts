@@ -1,0 +1,30 @@
+{{- if .Values.queryfrontend.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "thanos.fullname" . }}-bucket-web
+{{- if .Values.queryfrontend.service.annotations }}
+  annotations:
+{{ toYaml .Values.queryfrontend.service.annotations | indent 4 }}
+{{- end }}
+  labels:
+    app.kubernetes.io/name: {{ include "thanos.name" . }}
+    helm.sh/chart: {{ include "thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: bucket-web
+spec:
+  type: {{ .Values.queryfrontend.service.type }}
+  {{- if .Values.queryfrontend.service.externalTrafficPolicy }}
+  externalTrafficPolicy: {{ .Values.queryfrontend.service.externalTrafficPolicy }}
+  {{- end }}
+  ports:
+    - port: 10902
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ include "thanos.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: bucket-web
+{{- end -}}

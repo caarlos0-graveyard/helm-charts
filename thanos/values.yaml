@@ -20,7 +20,7 @@ prometheus-operator:
       prometheusExternalLabelNameClear: true
       thanos:
         baseImage: thanosio/thanos
-        tag: v0.14.0
+        tag: v0.15.0
 
   grafana:
     adminPassword: admin
@@ -41,7 +41,7 @@ prometheus-operator:
 
 image:
   repository: thanosio/thanos
-  tag: v0.14.0
+  tag: v0.15.0
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -162,6 +162,35 @@ bucketweb:
   replicas: 1
 
   logLevel: info
+
+  deployment:
+    annotations: {}
+
+  service:
+    type: ClusterIP
+    externalTrafficPolicy: ""
+    annotations: {}
+
+  ingress:
+    host: ""
+    annotations: {}
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+# Thanos tool bucket web configuration
+queryfrontend:
+  enabled: true
+  replicas: 1
+
+  downstreamURL: ""
+  logLevel: info
+  splitInterval: 24h
 
   deployment:
     annotations: {}

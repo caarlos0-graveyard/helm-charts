@@ -1,0 +1,18 @@
+{{- if .Values.queryfrontend.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "thanos.fullname" . }}-query-frontnend
+  labels:
+    app.kubernetes.io/name: {{ include "thanos.name" . }}
+    helm.sh/chart: {{ include "thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: query-frontnend
+data:
+  cache.yml: |
+    type: IN-MEMORY
+    config:
+      max_size: ""
+      max_size_items: 0
+      validity: 0s
