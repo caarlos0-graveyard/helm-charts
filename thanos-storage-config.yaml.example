@@ -1,6 +1,0 @@
-type: S3
-config:
-  bucket: "foo"
-  endpoint: "s3.amazonaws.com"
-  access_key: "xx"
-  secret_key: "yy"
