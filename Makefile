@@ -1,11 +1,11 @@
 deps:
-	cd thanos && helm dependency update
+	cd charts/thanos && helm dependency update
 
 release:
 	./hack/release.sh
 
 test:
-	./hack/test.sh
+	./charts/thanos/hack/test.sh
 
 dash:
-	./hack/download_dashboards.sh
+	./charts/thanos/hack/download_dashboards.sh
