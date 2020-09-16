@@ -1,11 +1,10 @@
 #!/bin/sh
 set -e
-helm lint thanos
+helm lint charts/*
 mkdir -p pkg
 
 gsutil rsync gs://carlos-charts pkg
-helm package charts/thanos --destination pkg
-helm package charts/kube-shutdown-after --destination pkg
+helm package charts/* --destination pkg
 
 helm repo index pkg/ --url "https://carlos-charts.storage.googleapis.com"
 gsutil rsync pkg gs://carlos-charts
