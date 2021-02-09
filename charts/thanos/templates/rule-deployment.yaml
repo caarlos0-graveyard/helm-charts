@@ -20,8 +20,9 @@ spec:
       app.kubernetes.io/component: rule
   template:
     metadata:
-    {{- if .Values.rule.deployment.annotations }}
       annotations:
+        checksum/configmap: {{ include (print $.Template.BasePath "/rule-config.yaml") . | sha256sum }}
+    {{- if .Values.rule.deployment.annotations }}
 {{ toYaml .Values.rule.deployment.annotations | indent 8 }}
     {{- end }}
       labels:
@@ -35,8 +36,8 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
             - "rule"
-            - "--data-dir=/etc/thanos-rules"
-            - "--rule-file=/etc/thanos-rules/*.rules.yaml"
+            - "--data-dir=/etc/thanos-rule"
+            - "--rule-file=/etc/thanos-rule/rules/*.rules.yaml"
             - "--eval-interval=30s"
             {{- range .Values.rule.queries }}
             - "--query={{ . }}"
@@ -60,7 +61,7 @@ spec:
             - name: object-store
               mountPath: /etc/thanos-object-store
             - name: rules
-              mountPath: /etc/thanos-rules
+              mountPath: /etc/thanos-rule/rules/
           resources:
 {{ toYaml .Values.rule.resources | indent 12 }}
     {{- with .Values.rule.nodeSelector }}
