@@ -1,0 +1,86 @@
+{{- if .Values.rule.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "thanos.fullname" . }}-rule
+  labels:
+    app.kubernetes.io/name: {{ include "thanos.name" . }}
+    helm.sh/chart: {{ include "thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: rule
+spec:
+  replicas: {{ .Values.rule.replicas }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "thanos.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      app.kubernetes.io/component: rule
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: {{ include (print $.Template.BasePath "/rule-config.yaml") . | sha256sum }}
+    {{- if .Values.rule.deployment.annotations }}
+{{ toYaml .Values.rule.deployment.annotations | indent 8 }}
+    {{- end }}
+      labels:
+        app.kubernetes.io/name: {{ include "thanos.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/component: rule
+    spec:
+      containers:
+        - name: thanos-rule
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - "rule"
+            - "--data-dir=/etc/thanos-rule"
+            - "--rule-file=/etc/thanos-rule/rules/*.rules.yaml"
+            - "--eval-interval=30s"
+            {{- range .Values.rule.queries }}
+            - "--query={{ . }}"
+            {{- end }}
+            - "--log.level={{ .Values.rule.logLevel }}"
+            - "--objstore.config-file=/etc/thanos-object-store/store.yaml"
+            - "--alertmanagers.url={{ .Values.rule.alertmanager_url }}"
+            # TODO: need to add --label here if we want HA
+          ports:
+            - name: http
+              containerPort: 10902
+          livenessProbe:
+            httpGet:
+              path: /-/healthy
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /-/ready
+              port: http
+          volumeMounts:
+            - name: object-store
+              mountPath: /etc/thanos-object-store
+            - name: rules
+              mountPath: /etc/thanos-rule/rules/
+          resources:
+{{ toYaml .Values.rule.resources | indent 12 }}
+    {{- with .Values.rule.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.rule.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.rule.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+      volumes:
+        - name: object-store
+          secret:
+            secretName: {{ include "thanos.fullname" . }}-thanos-object-store
+        - name: rules
+          configMap:
+            name: {{ include "thanos.fullname" . }}-rule
+{{- end -}}

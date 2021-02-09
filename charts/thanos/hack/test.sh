@@ -5,12 +5,22 @@ set -e
 export KUBECONFIG=/tmp/thanos-test.config
 k3d cluster create thanos-test || k3d cluster start thanos-test
 
+echo "use play with the cluster by running:
+
+ export KUBECONFIG=/tmp/thanos-test.config # on bash and zsh
+
+or
+
+ set -xg KUBECONFIG /tmp/thanos-test.config # on fish
+
+"
+
 helm upgrade --install --namespace thanos minio \
 	--create-namespace \
 	-f hack/minio.values.yaml \
 	stable/minio
 
-helm upgrade --install --namespace thanos thanos ./thanos \
+helm upgrade --install --namespace thanos thanos . \
 	--create-namespace \
 	-f values.yaml \
 	--set-file objectStore=hack/minio.thanos-storage-config.yaml \
