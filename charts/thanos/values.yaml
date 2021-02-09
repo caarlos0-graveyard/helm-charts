@@ -4,7 +4,7 @@ prometheus-operator:
       replicas: 1
       retention: 4h
       image:
-        tag: v2.21.0
+        tag: v2.24.0
       # this is needed to make prometheus-operator do the expected thing and
       # actually use servicemonitors and prometheusrules created 'from outside'
       # the helm chart.
@@ -20,7 +20,7 @@ prometheus-operator:
       prometheusExternalLabelNameClear: true
       thanos:
         baseImage: thanosio/thanos
-        tag: v0.15.0
+        tag: v0.18.0
 
   grafana:
     adminPassword: admin
@@ -41,7 +41,7 @@ prometheus-operator:
 
 image:
   repository: thanosio/thanos
-  tag: v0.15.0
+  tag: v0.18.0
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -250,3 +250,41 @@ sidecar:
     domain: ""
     annotations:
       ingress.kubernetes.io/protocol: h2c
+
+rule:
+  enabled: false
+  replicas: 1
+
+  queries: ["http://thanos-query-http:10902"]
+  alertmanager_url: "http://alertmanager-operated:9093"
+
+  logLevel: info
+  splitInterval: 24h
+
+  rules: |
+    # alert rules in the prometheus format
+    groups:
+    - name: example
+      rules:
+      - record: up:total
+        expr: count (up == 1)
+
+  deployment:
+    annotations: {}
+
+  service:
+    type: ClusterIP
+    externalTrafficPolicy: ""
+    annotations: {}
+
+  ingress:
+    host: ""
+    annotations: {}
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
