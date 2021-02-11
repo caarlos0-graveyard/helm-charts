@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "thanos.fullname" . }}-rule
-{{- if .Values.rule.service.annotations }}
+  name: {{ include "thanos.fullname" . }}-rule-grpc
+{{- if .Values.rule.grpcService.annotations }}
   annotations:
-{{ toYaml .Values.rule.service.annotations | indent 4 }}
+{{ toYaml .Values.rule.grpcService.annotations | indent 4 }}
 {{- end }}
   labels:
     app.kubernetes.io/name: {{ include "thanos.name" . }}
@@ -14,15 +14,13 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/component: rule
 spec:
-  type: {{ .Values.rule.service.type }}
-  {{- if .Values.rule.service.externalTrafficPolicy }}
-  externalTrafficPolicy: {{ .Values.rule.service.externalTrafficPolicy }}
-  {{- end }}
+  type: ClusterIP
+  clusterIP: None
   ports:
-    - port: 10902
-      targetPort: http
+    - port: 10901
+      targetPort: grpc
       protocol: TCP
-      name: http
+      name: grpc
   selector:
     app.kubernetes.io/name: {{ include "thanos.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}

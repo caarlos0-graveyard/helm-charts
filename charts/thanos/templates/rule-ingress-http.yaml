@@ -1,0 +1,27 @@
+{{- if .Values.rule.enabled }}
+{{- if .Values.rule.httpIngress.host }}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ include "thanos.fullname" . }}-rule-http
+{{- if .Values.rule.httpIngress.annotations }}
+  annotations:
+{{ toYaml .Values.rule.httpIngress.annotations | indent 4 }}
+{{- end }}
+  labels:
+    app.kubernetes.io/name: {{ include "thanos.name" . }}
+    helm.sh/chart: {{ include "thanos.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/component: rule
+spec:
+  rules:
+  - host: {{ .Values.rule.httpIngress.host | quote }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{ include "thanos.fullname" . }}-rule-http
+          servicePort: 10902
+{{- end -}}
+{{- end -}}
