@@ -256,7 +256,8 @@ rule:
   replicas: 1
 
   queries: ["http://thanos-query-frontend:10902"]
-  alertmanager_url: "http://alertmanager-operated:9093"
+  alertmanagerURL: "http://alertmanager-operated:9093"
+  queryURL: ''
 
   logLevel: info
   splitInterval: 24h

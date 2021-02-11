@@ -10,5 +10,6 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/component: rule
 data:
-  rule.rules.yaml: {{ toYaml .Values.rule.rules | indent 4 }}
+  rule.rules.yaml: |
+    {{- toYaml .Values.rule.rules | default "{}" | nindent 4 }}
 {{- end -}}
