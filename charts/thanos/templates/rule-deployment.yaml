@@ -45,7 +45,9 @@ spec:
             - "--log.level={{ .Values.rule.logLevel }}"
             - "--objstore.config-file=/etc/thanos-object-store/store.yaml"
             - "--alertmanagers.url={{ .Values.rule.alertmanager_url }}"
-            # TODO: need to add --label here if we want HA
+            {{- range $key, $val := .Value.rule.externalLabels }}
+            - "--label='{{ $key }}={{ $val | quote }}'"
+            {{- end }}
           ports:
             - name: http
               containerPort: 10902

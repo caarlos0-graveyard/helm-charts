@@ -269,6 +269,8 @@ rule:
       - record: up:total
         expr: count (up == 1)
 
+  externalLabels: {}
+
   deployment:
     annotations: {}
 
