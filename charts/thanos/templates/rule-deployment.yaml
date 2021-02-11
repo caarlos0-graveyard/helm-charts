@@ -46,7 +46,7 @@ spec:
             - "--objstore.config-file=/etc/thanos-object-store/store.yaml"
             - "--alertmanagers.url={{ .Values.rule.alertmanager_url }}"
             {{- range $key, $val := .Values.rule.externalLabels }}
-            - "--label='{{ $key }}={{ $val | quote }}'"
+            - '--label={{ $key }}="{{ $val }}"'
             {{- end }}
           ports:
             - name: http
