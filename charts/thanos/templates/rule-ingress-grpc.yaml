@@ -1,12 +1,12 @@
 {{- if .Values.rule.enabled }}
-{{- if .Values.rule.ingress.host }}
+{{- if .Values.rule.grpcIngress.host }}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ include "thanos.fullname" . }}-rule
-  {{- if .Values.rule.ingress.annotations }}
+{{- if .Values.rule.grpcIngress.annotations }}
   annotations:
-{{ toYaml .Values.rule.ingress.annotations | indent 4 }}
+{{ toYaml .Values.rule.grpcIngress.annotations | indent 4 }}
 {{- end }}
   labels:
     app.kubernetes.io/name: {{ include "thanos.name" . }}
@@ -16,12 +16,12 @@ metadata:
     app.kubernetes.io/component: rule
 spec:
   rules:
-  - host: {{ .Values.rule.ingress.host | quote }}
+  - host: {{ .Values.rule.grpcIngress.host | quote }}
     http:
       paths:
       - path: /
         backend:
-          serviceName: {{ include "thanos.fullname" . }}-rule
-          servicePort: 10902
+          serviceName: {{ include "thanos.fullname" . }}-rule-grpc
+          servicePort: 10901
 {{- end -}}
 {{- end -}}

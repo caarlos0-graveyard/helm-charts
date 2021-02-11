@@ -49,6 +49,8 @@ spec:
           ports:
             - name: http
               containerPort: 10902
+            - name: grpc
+              containerPort: 10901
           livenessProbe:
             httpGet:
               path: /-/healthy

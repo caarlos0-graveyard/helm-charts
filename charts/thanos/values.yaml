@@ -272,12 +272,20 @@ rule:
   deployment:
     annotations: {}
 
-  service:
+  grpcService:
+    annotations: {}
+
+  httpService:
     type: ClusterIP
     externalTrafficPolicy: ""
     annotations: {}
 
-  ingress:
+  grpcIngress:
+    host: ""
+    annotations:
+      ingress.kubernetes.io/protocol: h2c
+
+  httpIngress:
     host: ""
     annotations: {}
 
