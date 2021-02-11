@@ -45,7 +45,7 @@ spec:
             - "--log.level={{ .Values.rule.logLevel }}"
             - "--objstore.config-file=/etc/thanos-object-store/store.yaml"
             - "--alertmanagers.url={{ .Values.rule.alertmanager_url }}"
-            {{- range $key, $val := .Value.rule.externalLabels }}
+            {{- range $key, $val := .Values.rule.externalLabels }}
             - "--label='{{ $key }}={{ $val | quote }}'"
             {{- end }}
           ports:
