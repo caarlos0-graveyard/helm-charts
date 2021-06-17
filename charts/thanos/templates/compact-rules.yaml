@@ -45,7 +45,7 @@ spec:
       annotations:
         summary: Thanos Compact has not been run in 24 hours
         description: Long term storage queries will be slower
-    - alert: ThanosComactionIsNotRunning
+    - alert: ThanosCompactionIsNotRunning
       expr: up{job="thanos-compact-http"} == 0 or absent({job="thanos-compact-http"})
       for: 5m
       labels:
@@ -53,7 +53,7 @@ spec:
       annotations:
         summary: Thanos Compact is not running
         description: Long term storage queries will be slower
-    - alert: ThanosComactionMultipleCompactsAreRunning
+    - alert: ThanosCompactionMultipleCompactsAreRunning
       expr: sum(up{job="thanos-compact-http"}) > 1
       for: 5m
       labels:
