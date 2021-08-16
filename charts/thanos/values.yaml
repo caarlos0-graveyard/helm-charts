@@ -22,8 +22,9 @@ prometheus-operator:
         baseImage: thanosio/thanos
         tag: v0.22.0
   kubelet:
-    # From kubernetes 1.18, /metrics/resource/v1alpha1 renamed to /metrics/resource
-    resourcePath: "/metrics/resource"
+    serviceMonitor:
+      # From kubernetes 1.18, /metrics/resource/v1alpha1 renamed to /metrics/resource
+      resourcePath: "/metrics/resource"
   grafana:
     adminPassword: admin
     additionalDataSources:
