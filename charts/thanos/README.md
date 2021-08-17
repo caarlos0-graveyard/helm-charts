@@ -34,7 +34,7 @@ Then craete a `thanos-storage-config.yaml` file based on the provided
 
 Create a `values.yaml` file based on the provided `values.yaml.example`.
 You can check all option available at `./thanos/values.yaml`, as well as
-on the official `prometheus-operator` and `grafana` Helm charts.
+on the official `kube-prometheus-stack` and `grafana` Helm charts.
 
 #### 4. Install/Upgrade
 
@@ -57,11 +57,9 @@ kubectl -n thanos port-forward svc/thanos-grafana 3000:80
 
 ---
 
-## Upgrading from 1.x to 2.x
+## Upgrading prometheus-operator
 
-v2.0.0 upgrades the prometheus-operator dependency, which requires a forced
-helm upgrade. Check [their docs](https://github.com/helm/charts/tree/master/stable/prometheus-operator#upgrading-from-5xx-to-6xx)
-for more info.
+During some prometheus-operator upgrades might be required additional steps. Please check [their docs](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack#upgrading-chart) for more info.
 
 ---
 
