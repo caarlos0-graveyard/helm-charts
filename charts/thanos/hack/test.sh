@@ -14,6 +14,7 @@ or
  set -xg KUBECONFIG /tmp/thanos-test.config # on fish
 
 "
+cd charts/thanos || exit 1
 
 helm upgrade --install --namespace thanos minio \
 	--create-namespace \

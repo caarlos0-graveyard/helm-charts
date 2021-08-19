@@ -1,10 +1,10 @@
-prometheus-operator:
+prometheus-stack:
   prometheus:
     prometheusSpec:
       replicas: 1
       retention: 4h
       image:
-        tag: v2.28.0
+        tag: v2.29.1
       # this is needed to make prometheus-operator do the expected thing and
       # actually use servicemonitors and prometheusrules created 'from outside'
       # the helm chart.
