@@ -7,7 +7,7 @@
 
 {{- if and .Values.sidecar.ingress.basename .Values.sidecar.ingress.domain }}
 
-{{- $count := (index .Values "prometheus-operator" "prometheus" "prometheusSpec" "replicas" | int) }}
+{{- $count := (index .Values "prometheus-stack" "prometheus" "prometheusSpec" "replicas" | int) }}
 {{- range $replica := until $count }}
 ---
 apiVersion: v1

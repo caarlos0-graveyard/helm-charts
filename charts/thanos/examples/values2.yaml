@@ -1,4 +1,4 @@
-prometheus-operator:
+prometheus-stack:
   global:
     rbac:
       pspEnabled: false
