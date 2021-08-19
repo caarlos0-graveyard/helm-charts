@@ -1,5 +1,5 @@
 {{- if and .Values.sidecar.ingress.basename .Values.sidecar.ingress.domain }}
-{{- $count := (index .Values "prometheus-operator" "prometheus" "prometheusSpec" "replicas" | int) }}
+{{- $count := (index .Values "prometheus-stack" "prometheus" "prometheusSpec" "replicas" | int) }}
 {{- $fullname := include "thanos.fullname" . }}
 {{- $name := include "thanos.name" . }}
 {{- $chart := include "thanos.chart" . }}

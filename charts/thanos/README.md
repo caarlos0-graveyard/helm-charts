@@ -1,11 +1,11 @@
 # thanos helm chart
 
-Helm chart that install and configure prometheus-operator and thanos.
+Helm chart that install and configure prometheus-stack and thanos.
 
 ## Goal
 
 Make it as easy and reproducible as possible to setup a high-available and
-durable prometheus on kubernetes using prometheus-operator and thanos.
+durable prometheus on kubernetes using prometheus-stack and thanos.
 
 ## Getting started
 
