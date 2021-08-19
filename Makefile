@@ -1,5 +1,5 @@
 deps:
-	cd charts/thanos && helm dependency update
+	cd charts/thanos && rm -rf ./charts/*.tgz && helm dependency update
 
 release:
 	./hack/release.sh
