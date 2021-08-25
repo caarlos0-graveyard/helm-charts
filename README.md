@@ -2,7 +2,7 @@
 
 Helm charts I keep:
 
-- thanos: a prometheus-stack + thanos chart
+- thanos: a kube-prometheus-stack + thanos chart
 - kube-shutdown-after: shutdown pods after a specific time
 
 ## Usage

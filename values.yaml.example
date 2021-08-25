@@ -1,4 +1,4 @@
-prometheus-stack:
+kube-prometheus-stack:
   prometheus:
     prometheusSpec:
       replicas: 2
