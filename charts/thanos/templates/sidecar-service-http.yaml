@@ -17,7 +17,7 @@ spec:
   selector:
     app: prometheus
     # XXX: why prometheus operator cuts at 26?
-    prometheus: "{{- printf "%s-prometheus-operator" .Release.Name | trunc 26 | trimSuffix "-" -}}-prometheus"
+    prometheus: "{{- printf "%s-kube-prometheus-stack" .Release.Name | trunc 26 | trimSuffix "-" -}}-prometheus"
   type: {{ .Values.sidecar.httpService.type }}
   {{- if .Values.sidecar.httpService.externalTrafficPolicy }}
   externalTrafficPolicy: {{ .Values.sidecar.httpService.externalTrafficPolicy }}

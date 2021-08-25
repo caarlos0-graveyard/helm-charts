@@ -3,7 +3,7 @@
 {{- $chart := include "thanos.chart" . }}
 {{- $releaseName := .Release.Name }}
 {{- $service := .Release.Service }}
-{{- $prometheus := printf "%s-prometheus-operator" .Release.Name | trunc 26 | trimSuffix "-" }}
+{{- $prometheus := printf "%s-kube-prometheus-stack" .Release.Name | trunc 26 | trimSuffix "-" }}
 
 {{- if and .Values.sidecar.ingress.basename .Values.sidecar.ingress.domain }}
 
