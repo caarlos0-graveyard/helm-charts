@@ -36,14 +36,14 @@ spec:
         severity: warning
       annotations:
         summary: Thanos Compact bucket operations are failing
-    - alert: ThanosCompactNotRunIn24Hours
+    - alert: ThanosCompactHaventRunLately
       expr: max(thanos_objstore_bucket_last_successful_upload_time{job="thanos-compact-http"}) != 0 and
-              (time() - max(thanos_objstore_bucket_last_successful_upload_time{job="thanos-compact-http"}) ) /60/60 > 24
+              (time() - max(thanos_objstore_bucket_last_successful_upload_time{job="thanos-compact-http"}) ) /60/60 > 24*5
       for: 15m
       labels:
         severity: warning
       annotations:
-        summary: Thanos Compact has not been run in 24 hours
+        summary: Thanos Compact has not been run in 5 days
         description: Long term storage queries will be slower
     - alert: ThanosCompactionIsNotRunning
       expr: up{job="thanos-compact-http"} == 0 or absent({job="thanos-compact-http"})
