@@ -20,7 +20,7 @@ kube-prometheus-stack:
       prometheusExternalLabelNameClear: true
       thanos:
         baseImage: thanosio/thanos
-        tag: v0.23.0
+        tag: v0.23.1
   kubelet:
     serviceMonitor:
       # From kubernetes 1.18, /metrics/resource/v1alpha1 renamed to /metrics/resource
@@ -44,7 +44,7 @@ kube-prometheus-stack:
 
 image:
   repository: thanosio/thanos
-  tag: v0.23.0
+  tag: v0.23.1
   pullPolicy: IfNotPresent
 
 nameOverride: ""
