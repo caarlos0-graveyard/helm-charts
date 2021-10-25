@@ -230,6 +230,7 @@ compact:
   retentionResolution5m: 0d
   retentionResolution1h: 0d
   wait: true
+  vertical: true
 
   logLevel: info
 

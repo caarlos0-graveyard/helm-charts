@@ -41,6 +41,9 @@ spec:
             - "--retention.resolution-5m={{ .Values.compact.retentionResolution5m }}"
             - "--retention.resolution-1h={{ .Values.compact.retentionResolution1h }}"
             - "--objstore.config-file=/etc/thanos-object-store/store.yaml"
+            {{- if .Values.compact.vertical }}
+            - "--compact.enable-vertical-compaction"
+            {{- end }}
             {{- if .Values.compact.wait }}
             - "--wait"
             {{- end }}
