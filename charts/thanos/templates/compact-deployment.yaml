@@ -50,6 +50,9 @@ spec:
             {{- with .Values.compact.maxCompactionLevel }}
             - "--debug.max-compaction-level={{ . }}"
             {{- end }}
+            {{- with .Values.compact.skipBlocksWithOutOfOrderChunks }}
+            - "--compact.skip-block-with-out-of-order-chunks"
+            {{- end }}
           ports:
             - name: http
               containerPort: 10902
